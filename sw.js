@@ -1,11 +1,11 @@
-const CACHE_NAME = 'smtv-v1'
+const CACHE_NAME = 'smtv-v2'
 const urlsToCache = [
   '/',
-  '/lives',
-  '/podcasts',
-  '/blog',
-  '/galerie',
-  '/a-propos',
+  'css/style.css',
+  'js/api.js',
+  'js/app-core.js',
+  'js/app-pages.js',
+  'js/app-main.js',
 ]
 
 self.addEventListener('install', (event) => {

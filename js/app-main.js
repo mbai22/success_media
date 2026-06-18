@@ -12,7 +12,6 @@ function render() {
     + '<header class="header" id="main-header">'
     + '<div class="header-inner">'
     + '<a href="#/" class="logo"><img src="./logo.png" alt="Success Media TV" style="height:40px;width:auto"></a>'
-    + '<span class="demo-badge" id="demo-badge" style="display:none;font-size:0.65rem;background:var(--primary);color:var(--bg-dark);padding:2px 8px;border-radius:4px;font-weight:700;text-transform:uppercase;margin-left:8px">Demo</span>'
     + '<nav class="nav" id="main-nav">'
     + '<div class="nav-item"><a href="#/" class="nav-link" data-path="/">Accueil</a></div>'
     + '<div class="nav-item"><a href="#" class="nav-link dropdown-toggle" data-path="/blog">Actualites <i class="fas fa-chevron-down dropdown-arrow"></i></a>'
@@ -28,33 +27,40 @@ function render() {
     + '<div class="nav-actions">'
     + '<a href="#/lives" class="live-btn live-btn-tv"><span class="live-dot-sm"></span> Direct TV</a>'
     + '<a href="#/lives" class="live-btn live-btn-radio"><i class="fas fa-microphone" style="font-size:0.75rem"></i> Radio</a>'
-    + '<button id="theme-toggle-btn" class="theme-toggle" title="' + (state.theme === 'dark' ? 'Mode clair' : 'Mode sombre') + '"><i class="fas ' + (state.theme === 'dark' ? 'fa-sun' : 'fa-moon') + '"></i></button>'
     + '<button id="search-open-btn" class="nav-search-btn" title="Rechercher"><i class="fas fa-search"></i></button>'
     + '</div></nav>'
-    + '<div class="nav-right-mobile" style="display:none">'
+    + '<div class="nav-right-mobile">'
     + '<button class="nav-search-btn" id="search-open-btn-mobile" title="Rechercher"><i class="fas fa-search"></i></button>'
-    + '<button class="hamburger" id="hamburger-btn"><span></span><span></span><span></span></button></div></div>'
+    + '<div class="hamburger-lines" id="hamburger-btn"><span class="line line1"></span><span class="line line2"></span><span class="line line3"></span></div></div></div>'
+    + '<div class="mobile-overlay" id="mobile-overlay"></div>'
     + '<div class="mobile-menu" id="mobile-menu">'
-    + '<a href="#/" class="nav-link-mobile" data-path="/"><i class="fas fa-home" style="margin-right:10px;width:20px"></i>Accueil</a>'
-    + '<a href="#/blog" class="nav-link-mobile" data-path="/blog"><i class="fas fa-newspaper" style="margin-right:10px;width:20px"></i>Actualites</a>'
-    + '<a href="#/blog?category=societe" class="nav-link-mobile" data-path=""><i class="fas fa-chevron-right" style="margin-right:10px;width:14px;font-size:0.7rem;color:var(--text-muted)"></i>Societe</a>'
-    + '<a href="#/blog?category=culture" class="nav-link-mobile" data-path=""><i class="fas fa-chevron-right" style="margin-right:10px;width:14px;font-size:0.7rem;color:var(--text-muted)"></i>Culture</a>'
-    + '<a href="#/blog?category=politique" class="nav-link-mobile" data-path=""><i class="fas fa-chevron-right" style="margin-right:10px;width:14px;font-size:0.7rem;color:var(--text-muted)"></i>Politique</a>'
-    + '<a href="#/blog?category=economie" class="nav-link-mobile" data-path=""><i class="fas fa-chevron-right" style="margin-right:10px;width:14px;font-size:0.7rem;color:var(--text-muted)"></i>Economie</a>'
-    + '<a href="#/blog?category=sport" class="nav-link-mobile" data-path=""><i class="fas fa-chevron-right" style="margin-right:10px;width:14px;font-size:0.7rem;color:var(--text-muted)"></i>Sport</a>'
-    + '<a href="#/blog?category=sante" class="nav-link-mobile" data-path=""><i class="fas fa-chevron-right" style="margin-right:10px;width:14px;font-size:0.7rem;color:var(--text-muted)"></i>Sante</a>'
-    + '<a href="#/blog?category=technologie" class="nav-link-mobile" data-path=""><i class="fas fa-chevron-right" style="margin-right:10px;width:14px;font-size:0.7rem;color:var(--text-muted)"></i>Technologie</a>'
-    + '<a href="#/lives" class="nav-link-mobile" data-path="/lives"><i class="fas fa-video" style="margin-right:10px;width:20px"></i>Lives/Emissions</a>'
-    + '<a href="#/podcasts" class="nav-link-mobile" data-path="/podcasts"><i class="fas fa-podcast" style="margin-right:10px;width:20px"></i>Podcasts</a>'
-    + '<a href="#/galerie" class="nav-link-mobile" data-path="/galerie"><i class="fas fa-images" style="margin-right:10px;width:20px"></i>Galerie</a>'
-    + '<a href="#/a-propos" class="nav-link-mobile" data-path="/a-propos"><i class="fas fa-info-circle" style="margin-right:10px;width:20px"></i>A propos</a></div></header>'
+    + '<div class="mobile-menu-header"><img src="./logo.png" alt="Success Media TV" class="mobile-menu-logo"><button class="mobile-menu-close" id="mobile-menu-close" aria-label="Fermer le menu"><i class="fas fa-times"></i></button></div>'
+    + '<div class="mobile-menu-body"><div class="mobile-menu-links">'
+    + '<a href="#/" class="nav-link-mobile" data-path="/"><i class="fas fa-home nav-icon"></i>Accueil</a>'
+    + '<a href="#/blog" class="nav-link-mobile" data-path="/blog"><i class="fas fa-newspaper nav-icon"></i>Actualites</a>'
+    + '<div class="mobile-menu-divider"></div>'
+    + '<a href="#/blog?category=societe" class="nav-link-mobile"><i class="fas fa-users nav-icon"></i>Societe</a>'
+    + '<a href="#/blog?category=culture" class="nav-link-mobile"><i class="fas fa-palette nav-icon"></i>Culture</a>'
+    + '<a href="#/blog?category=politique" class="nav-link-mobile"><i class="fas fa-landmark nav-icon"></i>Politique</a>'
+    + '<a href="#/blog?category=economie" class="nav-link-mobile"><i class="fas fa-chart-line nav-icon"></i>Economie</a>'
+    + '<a href="#/blog?category=sport" class="nav-link-mobile"><i class="fas fa-medal nav-icon"></i>Sport</a>'
+    + '<a href="#/blog?category=sante" class="nav-link-mobile"><i class="fas fa-heart-pulse nav-icon"></i>Sante</a>'
+    + '<a href="#/blog?category=technologie" class="nav-link-mobile"><i class="fas fa-microchip nav-icon"></i>Technologie</a>'
+    + '<div class="mobile-menu-divider"></div>'
+    + '<a href="#/lives" class="nav-link-mobile" data-path="/lives"><i class="fas fa-video nav-icon"></i>Lives/Emissions</a>'
+    + '<a href="#/podcasts" class="nav-link-mobile" data-path="/podcasts"><i class="fas fa-podcast nav-icon"></i>Podcasts</a>'
+    + '<a href="#/galerie" class="nav-link-mobile" data-path="/galerie"><i class="fas fa-images nav-icon"></i>Galerie</a>'
+    + '<a href="#/a-propos" class="nav-link-mobile" data-path="/a-propos"><i class="fas fa-info-circle nav-icon"></i>A propos</a>'
+    + '<div class="mobile-menu-divider"></div>'
+    + '<div class="mobile-menu-social"><a href="https://web.facebook.com/profile.php?id=100085107969362" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a><a href="#" class="social-link" aria-label="YouTube"><i class="fab fa-youtube"></i></a><a href="#" class="social-link" aria-label="Instagram"><i class="fab fa-instagram"></i></a><a href="#" class="social-link" aria-label="TikTok"><i class="fab fa-tiktok"></i></a></div>'
+    + '</div></div></div></header>'
     + '<main class="page-transition" id="main-content"></main>'
     + '<footer class="footer-enhanced" id="main-footer"><div class="container">'
     + '<div id="footer-newsletter"></div>'
     + '<div class="footer-grid">'
-    + '<div class="footer-col"><a href="#/" style="display:inline-block;margin-bottom:16px"><img src="./logo.png" alt="Success Media TV" style="height:40px;width:auto"></a>'
+    + '<div class="footer-col footer-col-brand"><a href="#/" class="footer-logo"><img src="./logo.png" alt="Success Media TV"></a>'
     + '<p>Le Micro pour transformer. Success Media TV est un media tchadien base a Sarh, dedie a la production de contenus audiovisuels de qualite.</p>'
-    + '<div class="social-links" style="margin-top:12px">'
+    + '<div class="footer-social">'
     + '<a href="https://web.facebook.com/profile.php?id=100085107969362" target="_blank" rel="noopener noreferrer" class="social-link" title="Facebook"><i class="fab fa-facebook-f"></i></a>'
     + '<a href="#" class="social-link" title="YouTube"><i class="fab fa-youtube"></i></a>'
     + '<a href="#" class="social-link" title="Instagram"><i class="fab fa-instagram"></i></a>'
@@ -66,13 +72,13 @@ function render() {
     + '<div class="footer-col"><h4>Liens</h4>'
     + '<a href="#/a-propos">A propos</a><a href="#/a-propos">Contact</a><a href="#/blog">Actualites</a><a href="#/">Accueil</a></div>'
     + '<div class="footer-col"><h4>Contact</h4>'
-    + '<span><i class="fas fa-phone" style="width:18px;margin-right:6px;color:var(--primary)"></i>+235 66 57 65 85</span>'
-    + '<span><i class="fas fa-envelope" style="width:18px;margin-right:6px;color:var(--primary)"></i>ndgroupmedia89@gmail.com</span>'
-    + '<span><i class="fas fa-location-dot" style="width:18px;margin-right:6px;color:var(--primary)"></i>Sarh, Tchad</span>'
+    + '<span class="footer-contact-item"><i class="fas fa-phone"></i>+235 66 57 65 85</span>'
+    + '<span class="footer-contact-item"><i class="fas fa-envelope"></i>ndgroupmedia89@gmail.com</span>'
+    + '<span class="footer-contact-item"><i class="fas fa-location-dot"></i>Sarh, Tchad</span>'
     + '</div></div>'
     + '<div class="footer-bottom"><span>&copy; ' + new Date().getFullYear() + ' Success Media TV. Tous droits reserves.</span>'
-    + '<span>Informer . Eduquer . Progresser</span>'
-    + '<span>Designee avec <i class="fas fa-heart" style="color:var(--primary)"></i> a Sarh</span></div></div></footer>'
+    + '<span>Le business en temps reel</span>'
+    + '<span>conception MBAIHORNOM Willifred</span></div></div></footer>'
     + '<div id="search-modal-container"></div>'
     + '<div id="video-modal-container"></div>'
     + '<div id="lightbox-container"></div>'
@@ -96,7 +102,6 @@ function render() {
 
   updateNav();
   checkLiveNow();
-  updateDemoBadge();
   loadTrending();
   bindEvents();
 }
@@ -110,19 +115,12 @@ function updateNav() {
   });
 }
 
-/* ============ DEMO BADGE ============ */
-function updateDemoBadge() {
-  var badge = document.getElementById('demo-badge');
-  if (badge) badge.style.display = DEMO.mode ? 'inline' : 'none';
-}
-
 /* ============ CHECK LIVE NOW ============ */
 async function checkLiveNow() {
   try {
     const data = await API.get('/lives/current');
     if (data) {
-      const el = document.getElementById('live-indicator');
-      if (el) el.style.display = '';
+      /* live detected */
     }
   } catch(e) {}
 }
@@ -152,27 +150,25 @@ async function loadTrending() {
 
 /* ============ BIND EVENTS ============ */
 function bindEvents() {
-  /* Hamburger */
-  const hamburger = document.getElementById('hamburger-btn');
-  const mobileMenu = document.getElementById('mobile-menu');
-  if (hamburger && mobileMenu) {
-    hamburger.onclick = function() {
-      state.menuOpen = !state.menuOpen;
-      mobileMenu.classList.toggle('open', state.menuOpen);
-    };
+  /* Mobile menu toggle */
+  var hamburgerBtn = document.getElementById('hamburger-btn');
+  var mobileMenu = document.getElementById('mobile-menu');
+  var mobileOverlay = document.getElementById('mobile-overlay');
+  function toggleMenu(open) {
+    var isOpen = open !== undefined ? open : !state.menuOpen;
+    state.menuOpen = isOpen;
+    if (hamburgerBtn) hamburgerBtn.classList.toggle('open', isOpen);
+    if (mobileMenu) mobileMenu.classList.toggle('open', isOpen);
+    if (mobileOverlay) mobileOverlay.classList.toggle('open', isOpen);
   }
-
-  /* Theme toggle */
-  const themeBtn = document.getElementById('theme-toggle-btn');
-  if (themeBtn) {
-    themeBtn.onclick = function() {
-      state.theme = state.theme === 'dark' ? 'light' : 'dark';
-      localStorage.setItem('theme', state.theme);
-      document.documentElement.setAttribute('data-theme', state.theme);
-      themeBtn.innerHTML = '<i class="fas ' + (state.theme === 'dark' ? 'fa-sun' : 'fa-moon') + '"></i>';
-      themeBtn.title = state.theme === 'dark' ? 'Mode clair' : 'Mode sombre';
-    };
-  }
+  if (hamburgerBtn) hamburgerBtn.onclick = function() { toggleMenu(); };
+  if (mobileOverlay) mobileOverlay.onclick = function() { toggleMenu(false); };
+  var mobileCloseBtn = document.getElementById('mobile-menu-close');
+  if (mobileCloseBtn) mobileCloseBtn.onclick = function() { toggleMenu(false); };
+  /* Close menu on link click */
+  document.querySelectorAll('.mobile-menu-links .nav-link-mobile').forEach(function(a) {
+    a.onclick = function() { toggleMenu(false); };
+  });
 
   /* Search */
   document.querySelectorAll('#search-open-btn, #search-open-btn-mobile').forEach(function(btn) {
@@ -296,39 +292,14 @@ function bindEvents() {
   document.querySelectorAll('.gallery-item[data-gallery-id]').forEach(function(item) {
     item.onclick = function() {
       var id = parseInt(item.dataset.galleryId);
-      state.lightboxItem = (state.galleryItems || []).find(function(i) { return i.id === id; }) || null;
-      state.lightboxIndex = (state.galleryItems || []).findIndex(function(i) { return i.id === id; });
+      var filtered = state.galleryCat === 'all'
+        ? (state.galleryItems || [])
+        : (state.galleryItems || []).filter(function(i) { return i.category === state.galleryCat; });
+      state.lightboxItem = filtered.find(function(i) { return i.id === id; }) || null;
+      state.lightboxIndex = filtered.findIndex(function(i) { return i.id === id; });
       renderLightbox();
     };
   });
-
-  /* Lightbox */
-  var lightboxPrev = document.querySelector('.lightbox-prev');
-  if (lightboxPrev) {
-    lightboxPrev.onclick = function(e) {
-      e.stopPropagation();
-      if ((state.galleryItems || []).length) {
-        state.lightboxIndex = (state.lightboxIndex - 1 + state.galleryItems.length) % state.galleryItems.length;
-        state.lightboxItem = state.galleryItems[state.lightboxIndex];
-        renderLightbox();
-      }
-    };
-  }
-  var lightboxNext = document.querySelector('.lightbox-next');
-  if (lightboxNext) {
-    lightboxNext.onclick = function(e) {
-      e.stopPropagation();
-      if ((state.galleryItems || []).length) {
-        state.lightboxIndex = (state.lightboxIndex + 1) % state.galleryItems.length;
-        state.lightboxItem = state.galleryItems[state.lightboxIndex];
-        renderLightbox();
-      }
-    };
-  }
-  var lightbox = document.querySelector('.lightbox');
-  if (lightbox) {
-    lightbox.onclick = function() { state.lightboxItem = null; renderLightbox(); };
-  }
 }
 
 /* ============ HANDLE PAGE CLICK ============ */
@@ -465,6 +436,7 @@ async function handleContactSubmit(e) {
 }
 
 /* ============ LIGHTBOX ============ */
+var lightboxKeyHandler = null;
 function renderLightbox() {
   var container = document.getElementById('lightbox-container');
   if (!state.lightboxItem) { container.innerHTML = ''; return; }
@@ -499,8 +471,9 @@ function renderLightbox() {
       renderLightbox();
     }
   });
-  document.addEventListener('keydown', function handleKey(e) {
-    if (!state.lightboxItem) { document.removeEventListener('keydown', handleKey); return; }
+  if (lightboxKeyHandler) document.removeEventListener('keydown', lightboxKeyHandler);
+  lightboxKeyHandler = function handleKey(e) {
+    if (!state.lightboxItem) { document.removeEventListener('keydown', lightboxKeyHandler); lightboxKeyHandler = null; return; }
     if (e.key === 'Escape') { state.lightboxItem = null; renderLightbox(); }
     if (e.key === 'ArrowLeft') {
       state.lightboxIndex = (state.lightboxIndex - 1 + filtered.length) % filtered.length;
@@ -512,7 +485,8 @@ function renderLightbox() {
       state.lightboxItem = filtered[state.lightboxIndex];
       renderLightbox();
     }
-  });
+  };
+  document.addEventListener('keydown', lightboxKeyHandler);
 }
 
 /* ============ HOME ============ */
@@ -523,7 +497,7 @@ async function loadHome() {
       API.get('/articles?limit=3'),
       API.get('/articles?category=societe&limit=3'),
       API.get('/articles?category=culture&limit=3'),
-      API.get('/articles?category=sport&limit=3'),
+      API.get('/articles?category=economie&limit=3'),
       API.get('/lives?limit=3'),
       API.get('/podcasts?limit=4'),
       API.get('/stats'),
@@ -533,7 +507,7 @@ async function loadHome() {
     var latest = getData(results[1]);
     var societe = getData(results[2]);
     var culture = getData(results[3]);
-    var sport = getData(results[4]);
+    var economie = getData(results[4]);
     var lives = getData(results[5]);
     var podcasts = getData(results[6]);
     var stats = results[7] || {};
@@ -589,12 +563,12 @@ async function loadHome() {
         + '<div class="article-grid">' + culture.map(function(a) { return ArticleCard(a); }).join('') + '</div></div></div></section>';
     }
 
-    /* Sport */
-    if (sport.length) {
+    /* Economie */
+    if (economie.length) {
       html += '<section class="section section-alt-bg"><div class="container"><div class="cat-section">'
-        + '<div class="cat-section-header"><h2><span class="cat-dot" style="background:#10b981"></span> Sport</h2>'
-        + '<a href="#/blog?category=sport" class="voir-plus">Voir tout <i class="fas fa-arrow-right"></i></a></div>'
-        + '<div class="article-grid">' + sport.map(function(a) { return ArticleCard(a); }).join('') + '</div></div></div></section>';
+        + '<div class="cat-section-header"><h2><span class="cat-dot" style="background:#f59e0b"></span> Economie</h2>'
+        + '<a href="#/blog?category=economie" class="voir-plus">Voir tout <i class="fas fa-arrow-right"></i></a></div>'
+        + '<div class="article-grid">' + economie.map(function(a) { return ArticleCard(a); }).join('') + '</div></div></div></section>';
     }
 
     /* Lives */
@@ -1117,7 +1091,7 @@ function buildAdminArticlesHTML(articles, categories) {
     + '<div>'
     + '<div class="form-group"><label><i class="fas fa-image" style="margin-right:6px"></i>Image (URL)</label><input id="art-image" placeholder="https://..."><img id="art-image-preview" style="display:none;width:100%;margin-top:8px;border-radius:var(--radius-sm);max-height:120px;object-fit:cover"></div>'
     + '<div class="form-group"><label><i class="fas fa-tag" style="margin-right:6px"></i>Categorie</label><select id="art-category"><option value="">-- Sans categorie --</option>'
-    + categories.map(function(c) { return '<option value="' + c.id + '">' + c.name + '</option>'; }).join('') + '</select></div>'
+    + categories.map(function(c) { return '<option value="' + c.slug + '">' + c.name + '</option>'; }).join('') + '</select></div>'
     + '<div class="form-group"><label><i class="fas fa-user-pen" style="margin-right:6px"></i>Auteur</label><input id="art-author" value="Success Media TV"></div>'
     + '<div class="form-group"><label><i class="fas fa-calendar-clock" style="margin-right:6px"></i>Programmer</label><input type="datetime-local" id="art-scheduled"></div>'
     + '<div style="display:flex;flex-direction:column;gap:10px;margin-bottom:20px">'
@@ -1209,7 +1183,7 @@ function bindAdminArticles(container, articles, categories) {
       document.getElementById('art-excerpt').value = editing.excerpt || '';
       document.getElementById('art-content').value = editing.content || '';
       document.getElementById('art-image').value = editing.image || '';
-      document.getElementById('art-category').value = editing.category_id || '';
+      document.getElementById('art-category').value = editing.category_slug || '';
       document.getElementById('art-author').value = editing.author || 'Success Media TV';
       document.getElementById('art-scheduled').value = editing.scheduled_for ? editing.scheduled_for.slice(0, 16) : '';
       document.getElementById('art-featured').checked = !!editing.featured;
@@ -1231,7 +1205,7 @@ function bindAdminArticles(container, articles, categories) {
       excerpt: document.getElementById('art-excerpt').value,
       content: document.getElementById('art-content').value,
       image: document.getElementById('art-image').value,
-      category_id: document.getElementById('art-category').value,
+      category_slug: document.getElementById('art-category').value,
       author: document.getElementById('art-author').value || 'Success Media TV',
       featured: document.getElementById('art-featured').checked,
       published: document.getElementById('art-published').checked,
@@ -1348,6 +1322,10 @@ function bindAdminManager(container, endpoint, title, fields, items) {
       + '<button type="button" class="btn btn-outline" id="mgr-cancel"><i class="fas fa-xmark" style="margin-right:6px"></i>Annuler</button></div>';
     form.innerHTML = html;
 
+    /* Bind cancel button */
+    var cancelBtn = document.getElementById('mgr-cancel');
+    if (cancelBtn) cancelBtn.onclick = function() { formContainer.style.display = 'none'; };
+
     fields.filter(function(f) { return f.type === 'image'; }).forEach(function(f) {
       var input = document.getElementById('mgr-' + f.key);
       if (input) input.oninput = function() {
@@ -1380,8 +1358,6 @@ function bindAdminManager(container, endpoint, title, fields, items) {
       renderAdminManager(container, endpoint, title, fields);
     } catch(err) { showToast(err.error || 'Erreur', 'error'); }
   };
-
-  document.getElementById('mgr-cancel').onclick = function() { formContainer.style.display = 'none'; };
 
   document.querySelectorAll('.admin-mgr-edit').forEach(function(btn) {
     btn.onclick = function() {

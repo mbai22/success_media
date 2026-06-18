@@ -2,7 +2,7 @@
 const state = {
   route: '', params: {}, searchParams: new URLSearchParams(),
   menuOpen: false, searchOpen: false, liveNow: false,
-  theme: localStorage.getItem('theme') || 'dark',
+  theme: 'light',
   user: JSON.parse(localStorage.getItem('user') || 'null'),
   livesPage: 1, liveFilter: 'all', livesData: [], livesTotal: 0,
   podcastsPage: 1, podcastSearch: '', podcastsData: [], podcastsTotal: 0,
@@ -13,7 +13,8 @@ const state = {
 
 /* ============ THEME ============ */
 function initTheme() {
-  document.documentElement.setAttribute('data-theme', state.theme);
+  localStorage.removeItem('theme');
+  document.documentElement.setAttribute('data-theme', 'light');
 }
 
 /* ============ TOAST ============ */
