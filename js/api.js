@@ -14,10 +14,11 @@ var DEMO = {
   ],
 
   lives: [
-    { id: 1, title: 'Debat du soir — Les defis de l\'education au Tchad', description: 'Un debat interactif sur les defis et perspectives du systeme educatif tchadien.', embed_url: '', facebook_url: '', image: './images/live-1.jpg', is_live: false, created_at: '2026-06-16T19:00:00Z' },
-    { id: 2, title: 'Success Morning — Edition speciale', description: 'Votre emission matinale avec des invites speciaux et des sujets d\'actualite.', embed_url: '', facebook_url: '', image: './images/live-2.jpg', is_live: false, created_at: '2026-06-14T08:00:00Z' },
-    { id: 3, title: 'Interview exclusive — Portrait d\'un entrepreneur', description: 'Rencontre avec un jeune entrepreneur de Sarh qui a reussi dans l\'agroalimentaire.', embed_url: '', facebook_url: '', image: './images/live-3.jpg', is_live: false, created_at: '2026-06-12T15:30:00Z' },
-    { id: 4, title: 'Direct — Festival culturel de Sarh', description: 'Suivez en direct les temps forts du festival culturel annuel de Sarh.', embed_url: '', facebook_url: '', image: './images/live-4.jpg', is_live: false, created_at: '2026-06-10T10:00:00Z' },
+    { id: 1, title: 'Success Media TV — Direct', description: 'Suivez Success Media TV en direct depuis Sarh. Debat, interviews et actualites en continu.', embed_url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ', facebook_url: '', image: './images/live-1.jpg', is_live: true, created_at: '2026-06-17T08:00:00Z' },
+    { id: 2, title: 'Debat du soir — Les defis de l\'education au Tchad', description: 'Un debat interactif sur les defis et perspectives du systeme educatif tchadien.', embed_url: '', facebook_url: '', image: './images/live-2.jpg', is_live: false, created_at: '2026-06-16T19:00:00Z' },
+    { id: 3, title: 'Success Morning — Edition speciale', description: 'Votre emission matinale avec des invites speciaux et des sujets d\'actualite.', embed_url: '', facebook_url: '', image: './images/live-3.jpg', is_live: false, created_at: '2026-06-14T08:00:00Z' },
+    { id: 4, title: 'Interview exclusive — Portrait d\'un entrepreneur', description: 'Rencontre avec un jeune entrepreneur de Sarh qui a reussi dans l\'agroalimentaire.', embed_url: '', facebook_url: '', image: './images/live-4.jpg', is_live: false, created_at: '2026-06-12T15:30:00Z' },
+    { id: 5, title: 'Direct — Festival culturel de Sarh', description: 'Suivez en direct les temps forts du festival culturel annuel de Sarh.', embed_url: '', facebook_url: '', image: './images/live-1.jpg', is_live: false, created_at: '2026-06-10T10:00:00Z' },
   ],
 
   podcasts: [
@@ -44,6 +45,8 @@ var DEMO = {
     { id: 6, name: 'Economie', slug: 'economie', description: 'Economie et finance', article_count: 2 },
     { id: 7, name: 'Sante', slug: 'sante', description: 'Sante et bien-etre', article_count: 0 },
   ],
+
+  radio_url: 'https://example.com/success-radio.mp3',
 
   comments: { 1: [
     { id: 1, article_id: 1, author: 'Jean', content: 'Excellent article ! Tres inspirant pour la jeunesse.', created_at: '2026-06-16T08:00:00Z' },
@@ -383,6 +386,11 @@ const API = {
     // Newsletter
     if (endpoint === '/newsletter' && method === 'POST') {
       return { success: true, message: 'Inscription reussie' };
+    }
+
+    // Radio stream
+    if (endpoint === '/radio/stream') {
+      return { data: { stream_url: DEMO.radio_url, title: 'Success Media Radio' } };
     }
 
     // Default

@@ -8,6 +8,7 @@ const state = {
   podcastsPage: 1, podcastSearch: '', podcastsData: [], podcastsTotal: 0,
   galleryPage: 1, galleryCat: 'all', galleryItems: [], lightboxItem: null, lightboxIndex: -1,
   playingLive: null, adminSection: 'dashboard',
+  radioPlaying: false, radioStreamUrl: '',
   pollVoted: localStorage.getItem('pollVoted') || false,
 };
 

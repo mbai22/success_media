@@ -8,13 +8,14 @@ function renderHome() {
 }
 
 function renderLives() {
-  setPageMeta('Emissions & Lives', 'Retrouvez toutes nos emissions, lives et replays en direct de Sarh, Tchad.');
+  setPageMeta('Emissions & Lives', 'Regardez Success Media TV en direct et retrouvez toutes nos emissions et replays depuis Sarh, Tchad.');
   return '<div class="page-content container" id="page-lives">'
     + '<div class="page-header">'
     + '<h1><i class="fas fa-video" style="margin-right:10px;color:var(--primary)"></i> Emissions & Lives</h1>'
-    + '<p>Retrouvez toutes nos emissions, lives et replays</p></div>'
+    + '<p>Regardez nos emissions en direct et en replay</p></div>'
+    + '<div class="live-featured" id="live-featured"><div class="loading"><div class="spinner"></div></div></div>'
     + '<div class="filter-bar">'
-    + '<button class="filter-btn active" data-filter="all"><i class="fas fa-th-list"></i> Toutes</button>'
+    + '<button class="filter-btn active" data-filter="all"><i class="fas fa-th-list"></i> Tous</button>'
     + '<button class="filter-btn" data-filter="live"><i class="fas fa-circle" style="color:var(--primary)"></i> En direct</button>'
     + '<button class="filter-btn" data-filter="replay"><i class="fas fa-rotate-left"></i> Replays</button></div>'
     + '<div class="lives-content"><div class="loading"><div class="spinner"></div></div></div></div>';

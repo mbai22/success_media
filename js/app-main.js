@@ -26,7 +26,7 @@ function render() {
     + '<div class="nav-item"><a href="#/a-propos" class="nav-link" data-path="/a-propos">A propos</a></div>'
     + '<div class="nav-actions">'
     + '<a href="#/lives" class="live-btn live-btn-tv"><span class="live-dot-sm"></span> Direct TV</a>'
-    + '<a href="#/lives" class="live-btn live-btn-radio"><i class="fas fa-microphone" style="font-size:0.75rem"></i> Radio</a>'
+    + '<button id="radio-toggle-btn" class="live-btn live-btn-radio" title="Ecouter la radio"><i class="fas fa-microphone" style="font-size:0.75rem"></i> Radio</button>'
     + '<button id="search-open-btn" class="nav-search-btn" title="Rechercher"><i class="fas fa-search"></i></button>'
     + '</div></nav>'
     + '<div class="nav-right-mobile">'
@@ -80,7 +80,13 @@ function render() {
     + '<div id="search-modal-container"></div>'
     + '<div id="video-modal-container"></div>'
     + '<div id="lightbox-container"></div>'
-    + '<div id="toast-container" style="position:fixed;bottom:24px;right:24px;z-index:9999;display:flex;flex-direction:column;gap:8px;max-width:380px"></div></div>';
+    + '<div id="toast-container" style="position:fixed;bottom:24px;right:24px;z-index:9999;display:flex;flex-direction:column;gap:8px;max-width:380px"></div>'
+    + '<div class="radio-player-bar" id="radio-player-bar">'
+    + '<div class="radio-player-inner">'
+    + '<div class="radio-player-left"><i class="fas fa-tower-broadcast radio-player-icon"></i><div><div class="radio-player-title">Success Media Radio</div><div class="radio-player-status" id="radio-status">Arretee</div></div></div>'
+    + '<div class="radio-player-center"><button class="radio-play-btn" id="radio-play-btn"><i class="fas fa-play"></i></button></div>'
+    + '<div class="radio-player-right"><audio id="radio-audio" preload="none"></audio><button class="radio-close-btn" id="radio-close-btn" title="Fermer"><i class="fas fa-chevron-down"></i></button></div>'
+    + '</div></div></div>';
 
   document.getElementById('footer-newsletter').innerHTML = NewsletterForm();
   document.getElementById('search-modal-container').innerHTML = SearchModal();
@@ -224,6 +230,9 @@ function bindEvents() {
       try { state.playingLive = JSON.parse(card.dataset.live); render(); } catch(e) {}
     };
   });
+
+  /* Radio player */
+  bindRadioEvents();
 
   /* Live filters */
   document.querySelectorAll('.filter-btn[data-filter]').forEach(function(btn) {
@@ -658,17 +667,53 @@ function initCarousel(len) {
 /* ============ LIVES ============ */
 async function loadLives() {
   var container = document.querySelector('.lives-content');
+  var featuredContainer = document.getElementById('live-featured');
   if (!container) return;
   container.innerHTML = '<div class="loading"><div class="spinner"></div></div>';
+  if (featuredContainer) featuredContainer.innerHTML = '<div class="loading"><div class="spinner"></div></div>';
   try {
-    var r = await API.get('/lives?page=' + state.livesPage + '&per_page=12');
-    var d = r.data || r;
+    var [livesRes, currentRes] = await Promise.all([
+      API.get('/lives?page=' + state.livesPage + '&per_page=12'),
+      API.get('/lives/current')
+    ]);
+    var d = livesRes.data || livesRes;
     state.livesData = getData(d);
     state.livesTotal = d.total || 0;
+    var currentLive = currentRes && currentRes.data ? currentRes.data : currentRes;
+    renderFeaturedLive(currentLive);
     renderLivesList();
   } catch(e) {
     container.innerHTML = '<div style="text-align:center;padding:60px;color:var(--text-muted)"><p>Erreur de chargement</p></div>';
+    if (featuredContainer) featuredContainer.innerHTML = '';
   }
+}
+
+function renderFeaturedLive(live) {
+  var container = document.getElementById('live-featured');
+  if (!container) return;
+  if (!live) {
+    container.innerHTML = '';
+    return;
+  }
+  var embedHtml = '';
+  var url = live.embed_url || live.facebook_url || '';
+  if (url.includes('youtube.com/watch') || url.includes('youtu.be')) {
+    var m = url.match(/(?:v=|\/)([\w-]{11})/);
+    if (m) embedHtml = '<iframe src="https://www.youtube.com/embed/' + m[1] + '?autoplay=1" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen></iframe>';
+  } else if (url.includes('facebook.com')) {
+    embedHtml = '<iframe src="https://www.facebook.com/plugins/video.php?href=' + encodeURIComponent(url) + '&show_text=false" scrolling="no" allow="encrypted-media;autoplay" allowfullscreen></iframe>';
+  } else if (url) {
+    embedHtml = '<video controls autoplay><source src="' + url + '" type="video/mp4"></video>';
+  } else {
+    embedHtml = '<div class="live-featured-placeholder"><i class="fas fa-tower-broadcast"></i><p>Aucun flux disponible pour le moment</p></div>';
+  }
+  container.innerHTML = '<div class="live-featured-banner fade-in">'
+    + '<div class="live-featured-player">' + embedHtml + '</div>'
+    + '<div class="live-featured-info">'
+    + '<span class="live-badge"><span class="live-dot"></span> EN DIRECT</span>'
+    + '<h2>' + esc(live.title) + '</h2>'
+    + (live.description ? '<p>' + esc(live.description) + '</p>' : '')
+    + '</div></div>';
 }
 
 function renderLivesList() {
@@ -1546,6 +1591,75 @@ async function renderAdminMessages(container) {
       };
     });
   } catch(e) { container.innerHTML = '<p style="color:var(--text-muted)">Erreur</p>'; }
+}
+
+/* ============ RADIO PLAYER ============ */
+async function loadRadioStream() {
+  try {
+    var r = await API.get('/radio/stream');
+    var d = r && r.data ? r.data : r;
+    if (d && d.stream_url) state.radioStreamUrl = d.stream_url;
+  } catch(e) { /* silent fail */ }
+}
+
+function toggleRadio() {
+  var bar = document.getElementById('radio-player-bar');
+  if (!bar) return;
+  var isOpen = bar.classList.toggle('open');
+  state.radioPlaying = isOpen;
+  if (isOpen) {
+    loadRadioStream().then(function() {
+      var audio = document.getElementById('radio-audio');
+      var playBtn = document.getElementById('radio-play-btn');
+      if (audio && state.radioStreamUrl) {
+        audio.src = state.radioStreamUrl;
+        audio.play().then(function() {
+          if (playBtn) playBtn.innerHTML = '<i class="fas fa-pause"></i>';
+          var status = document.getElementById('radio-status');
+          if (status) status.textContent = 'En direct';
+        }).catch(function() {
+          var status = document.getElementById('radio-status');
+          if (status) status.textContent = 'Indisponible';
+          state.radioPlaying = false;
+        });
+      } else {
+        var status = document.getElementById('radio-status');
+        if (status) status.textContent = 'Aucun flux';
+      }
+    });
+  } else {
+    var audio = document.getElementById('radio-audio');
+    if (audio) { audio.pause(); audio.src = ''; }
+    var playBtn = document.getElementById('radio-play-btn');
+    if (playBtn) playBtn.innerHTML = '<i class="fas fa-play"></i>';
+    var status = document.getElementById('radio-status');
+    if (status) status.textContent = 'Arretee';
+  }
+}
+
+function bindRadioEvents() {
+  var radioBtn = document.getElementById('radio-toggle-btn');
+  if (radioBtn) radioBtn.onclick = function(e) { e.preventDefault(); toggleRadio(); };
+
+  var playBtn = document.getElementById('radio-play-btn');
+  if (playBtn) playBtn.onclick = function() {
+    var audio = document.getElementById('radio-audio');
+    if (!audio || !audio.src) return;
+    if (audio.paused) {
+      audio.play();
+      playBtn.innerHTML = '<i class="fas fa-pause"></i>';
+      var status = document.getElementById('radio-status');
+      if (status) status.textContent = 'En direct';
+    } else {
+      audio.pause();
+      playBtn.innerHTML = '<i class="fas fa-play"></i>';
+      var status = document.getElementById('radio-status');
+      if (status) status.textContent = 'En pause';
+    }
+  };
+
+  var closeBtn = document.getElementById('radio-close-btn');
+  if (closeBtn) closeBtn.onclick = function() { toggleRadio(); };
 }
 
 /* ============ INIT ============ */
