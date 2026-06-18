@@ -33,9 +33,7 @@ function render() {
     + '<button class="nav-search-btn" id="search-open-btn-mobile" title="Rechercher"><i class="fas fa-search"></i></button>'
     + '<div class="hamburger-lines" id="hamburger-btn"><span class="line line1"></span><span class="line line2"></span><span class="line line3"></span></div></div></div>'
     + '<div class="mobile-overlay" id="mobile-overlay"></div>'
-    + '<div class="mobile-menu" id="mobile-menu">'
-    + '<div class="mobile-menu-header"><img src="./logo.png" alt="Success Media TV" class="mobile-menu-logo"><button class="mobile-menu-close" id="mobile-menu-close" aria-label="Fermer le menu"><i class="fas fa-times"></i></button></div>'
-    + '<div class="mobile-menu-body"><div class="mobile-menu-links">'
+    + '<div class="mobile-menu" id="mobile-menu"><div class="mobile-menu-inner"><div class="mobile-menu-links">'
     + '<a href="#/" class="nav-link-mobile" data-path="/"><i class="fas fa-home nav-icon"></i>Accueil</a>'
     + '<a href="#/blog" class="nav-link-mobile" data-path="/blog"><i class="fas fa-newspaper nav-icon"></i>Actualites</a>'
     + '<div class="mobile-menu-divider"></div>'
@@ -160,14 +158,17 @@ function bindEvents() {
     if (hamburgerBtn) hamburgerBtn.classList.toggle('open', isOpen);
     if (mobileMenu) mobileMenu.classList.toggle('open', isOpen);
     if (mobileOverlay) mobileOverlay.classList.toggle('open', isOpen);
+    document.body.classList.toggle('menu-open', isOpen);
   }
   if (hamburgerBtn) hamburgerBtn.onclick = function() { toggleMenu(); };
   if (mobileOverlay) mobileOverlay.onclick = function() { toggleMenu(false); };
-  var mobileCloseBtn = document.getElementById('mobile-menu-close');
-  if (mobileCloseBtn) mobileCloseBtn.onclick = function() { toggleMenu(false); };
   /* Close menu on link click */
   document.querySelectorAll('.mobile-menu-links .nav-link-mobile').forEach(function(a) {
     a.onclick = function() { toggleMenu(false); };
+  });
+  /* Close menu on Escape */
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && state.menuOpen) toggleMenu(false);
   });
 
   /* Search */
