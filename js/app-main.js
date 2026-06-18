@@ -81,6 +81,14 @@ function render() {
     + '<div id="video-modal-container"></div>'
     + '<div id="lightbox-container"></div>'
     + '<div id="toast-container" style="position:fixed;bottom:24px;right:24px;z-index:9999;display:flex;flex-direction:column;gap:8px;max-width:380px"></div>'
+    + '<div class="cookie-consent" id="cookie-consent">'
+    + '<div class="cookie-consent-inner">'
+    + '<div class="cookie-consent-text"><p>Nous utilisons des cookies pour mesurer notre trafic et vous garantir la meilleure experience sur notre site web.</p></div>'
+    + '<div class="cookie-consent-actions">'
+    + '<button class="cookie-btn cookie-btn-accept" id="cookie-accept">J\'accepte</button>'
+    + '<button class="cookie-btn cookie-btn-refuse" id="cookie-refuse">Je refuse</button>'
+    + '<a href="#/a-propos" class="cookie-btn cookie-btn-policy" id="cookie-policy">Politique de confidentialite</a>'
+    + '</div></div></div>'
     + '<div class="radio-player-bar" id="radio-player-bar">'
     + '<div class="radio-player-inner">'
     + '<div class="radio-player-left"><i class="fas fa-tower-broadcast radio-player-icon"></i><div><div class="radio-player-title">Success Media Radio</div><div class="radio-player-status" id="radio-status">Arretee</div></div></div>'
@@ -187,6 +195,19 @@ function bindEvents() {
   if (searchOverlay) searchOverlay.onclick = function(e) { if (e.target === searchOverlay) { state.searchOpen = false; render(); } };
   var searchInput = document.getElementById('search-input');
   if (searchInput) searchInput.oninput = debounce(handleSearch, 300);
+
+  /* Cookie consent */
+  if (!localStorage.getItem('cookieConsent')) {
+    document.getElementById('cookie-consent').classList.add('show');
+  }
+  document.getElementById('cookie-accept').onclick = function() {
+    localStorage.setItem('cookieConsent', 'accepted');
+    document.getElementById('cookie-consent').classList.remove('show');
+  };
+  document.getElementById('cookie-refuse').onclick = function() {
+    localStorage.setItem('cookieConsent', 'refused');
+    document.getElementById('cookie-consent').classList.remove('show');
+  };
 
   /* Poll */
   document.querySelectorAll('.poll-option').forEach(function(btn) {

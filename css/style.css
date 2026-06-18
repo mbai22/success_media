@@ -12374,6 +12374,103 @@ body.menu-open {
     color: #fff
 }
 
+/* ============ COOKIE CONSENT ============ */
+.cookie-consent {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 10000;
+    background: #1a1a2e;
+    color: #e0e0e0;
+    padding: 16px 20px;
+    transform: translateY(100%);
+    transition: transform .4s ease;
+    box-shadow: 0 -4px 20px #0000004d
+}
+.cookie-consent.show {
+    transform: translateY(0)
+}
+.cookie-consent-inner {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap
+}
+.cookie-consent-text {
+    flex: 1;
+    min-width: 240px
+}
+.cookie-consent-text p {
+    font-size: 0.88rem;
+    line-height: 1.5;
+    margin: 0
+}
+.cookie-consent-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0
+}
+.cookie-btn {
+    padding: 8px 18px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    text-decoration: none;
+    transition: opacity .2s
+}
+.cookie-btn:hover {
+    opacity: .85
+}
+.cookie-btn-accept {
+    background: var(--primary);
+    color: #fff
+}
+.cookie-btn-refuse {
+    background: transparent;
+    color: #e0e0e0;
+    border: 1px solid #ffffff33
+}
+.cookie-btn-policy {
+    background: transparent;
+    color: #aaa;
+    font-weight: 400;
+    text-decoration: underline;
+    font-size: 0.82rem
+}
+
+@media (max-width: 768px) {
+    .cookie-consent {
+        padding: 14px 16px
+    }
+    .cookie-consent-inner {
+        flex-direction: column;
+        gap: 12px;
+        align-items: stretch
+    }
+    .cookie-consent-text {
+        min-width: auto;
+        text-align: center
+    }
+    .cookie-consent-text p {
+        font-size: 0.8rem
+    }
+    .cookie-consent-actions {
+        justify-content: center;
+        flex-wrap: wrap
+    }
+    .cookie-btn {
+        padding: 8px 14px;
+        font-size: 0.8rem
+    }
+}
+
 @media (max-width: 768px) {
     .live-featured-banner {
         flex-direction: column
