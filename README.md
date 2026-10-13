@@ -1,98 +1,128 @@
 # Success Media TV
 
-**Le Micro pour transformer** — Site web d'information et de médias tchadien, basé à Sarh.
+**Le business en temps réel** — Média tchadien basé à Sarh, consacré à l'économie, la finance, l'entrepreneuriat et l'innovation.
+
+Site en ligne : <https://successmedia-tv.com>
 
 ## Fonctionnalités
 
-- **Actualités** — Articles d'actualité avec catégories (Politique, Économie, Société, Culture, Technologie)
-- **Télévision en direct** — Lecteur vidéo intégré (YouTube/Facebook) pour les directs
-- **Radio en streaming** — Barre de lecteur radio sticky en bas de page
-- **Podcasts** — Épisodes audio/vidéo
-- **Galerie média** — Photos et événements
-- **Blog** — Fil d'actualités avec pagination et filtrage par catégorie
-- **Administration** — Interface admin (CRUD articles, lives, podcasts, galerie)
-- **Hors ligne** — Mode démo complet sans backend
-- **Progressive Web App (PWA)** — Service worker, manifeste, icônes
-- **Responsive** — Menu mobile dropdown, design adaptatif
-- **Cookies (RGPD)** — Bannière de consentement
+- **Rubriques** — Économie, Finance, Business, Entrepreneuriat, Tech & Innovation, Leadership, Analyses, Opportunités
+- **Accueil** — Carrousel « À la une », bandeau défilant « En ce moment », cartes des derniers articles, panneau des rubriques, tendances
+- **Articles** — Lecture, temps de lecture, partage (WhatsApp, Facebook, X, Telegram, LinkedIn), articles similaires, commentaires
+- **Lives et replays** — Lecteur YouTube, Facebook ou vidéo directe
+- **Podcasts** et **galerie photo**
+- **Recherche** dans les articles, lives et podcasts
+- **Contact** et **newsletter**
+- **Radio** — Lecteur affiché uniquement quand un flux est configuré
+- **Administration** — Tableau de bord, articles, lives, podcasts, galerie, catégories, médiathèque, messages
+- **Animations** — Apparition au défilement, carrousel, bandeau ; désactivées si l'appareil demande moins d'animations
+- **PWA** — Installable sur mobile (manifeste, icônes, service worker)
+- **Réseaux sociaux** — Facebook, YouTube, LinkedIn
 
 ## Stack technique
 
-- **100% vanilla** — HTML5, CSS3, JavaScript ES6 (aucun framework)
-- **Routing hash-based** — `#/`, `#/blog?category=...`, `#/live`, etc.
-- **API REST simulée** — Client fetch avec fallback offline (`js/api.js`)
-- **État global** — Objet `state` dans `js/app-core.js`
-- **PWA** — `sw.js` (cache-first), `manifest.json`, icônes 192/512px
+- **Front** — HTML, CSS et JavaScript sans framework, routage par hash (`#/`, `#/blog?category=finance`, `#/article/<slug>`…)
+- **API** — PHP 8 + SQLite (`api/index.php`), base créée et mise à jour automatiquement
+- **Polices** — Inter et Work Sans (Google Fonts), icônes Font Awesome intégrées dans `css/style.css`
 
 ## Structure
 
 ```
 success/
-├── index.html              # Shell HTML principal
-├── manifest.json           # Manifeste PWA
-├── sw.js                   # Service worker
-├── logo-jaune.svg          # Favicon SVG (logo jaune)
-├── logo.png                # Fallback favicon PNG
-├── icon-192.png            # PWA icon 192px
-├── icon-512.png            # PWA icon 512px
-├── css/
-│   └── style.css           # Styles (12k+ lignes, FontAwesome intégré)
+├── index.html               # Page unique de l'application
+├── manifest.json            # Manifeste PWA
+├── sw.js                    # Service worker (cache des fichiers statiques)
+├── .htaccess                # Réécriture /api et sitemap.xml, protection des fichiers sensibles
+├── router.php               # Routeur pour le serveur PHP intégré (développement)
+├── sitemap.php              # Sitemap servi sur /sitemap.xml
+├── logo.png, logo-jaune.svg # Logos
+├── icon-192.png, icon-512.png, icon-maskable-512.png, apple-touch-icon.png
+├── api/
+│   ├── index.php            # API REST + migrations de la base
+│   ├── set-admin-password.php  # Changement du mot de passe admin (ligne de commande)
+│   ├── nginx.conf           # Configuration équivalente pour Nginx
+│   └── data/                # Base SQLite (non versionnée, protégée par .htaccess)
+├── css/style.css            # Styles
 ├── js/
-│   ├── api.js              # Client fetch + données démo offline
-│   ├── app-core.js         # Routeur hash, helpers, composants
-│   ├── app-pages.js        # Rendu de toutes les pages
-│   └── app-main.js         # Point d'entrée, render(), événements
-├── assets/
-│   ├── fa-brands-400.woff2
-│   ├── fa-regular-400.woff2
-│   └── fa-solid-900.woff2
-└── images/
-    ├── cover-success.svg   # Visuel neutre en attendant la vraie photo d'un article
-    ├── fb-profile.jpg      # Photo de profil Facebook
-    ├── *.png               # Photos des articles
-    └── placeholder.svg     # Image par défaut SVG
+│   ├── api.js               # Client de l'API + données de secours hors ligne
+│   ├── app-core.js          # État, routeur, rubriques, réseaux sociaux, composants
+│   ├── app-pages.js         # Gabarits des pages
+│   └── app-main.js          # Rendu, accueil, animations, administration
+├── assets/                  # Polices Font Awesome
+└── images/                  # Photos des articles et fichiers envoyés depuis l'admin
 ```
 
-## Lancement
+## Lancement en local
+
+Prérequis : PHP 8 avec les extensions `pdo_sqlite` et `fileinfo`.
 
 ```bash
-npx serve <chemin-vers-success/>
+php -S localhost:8000 router.php
 ```
 
-Puis ouvrir `http://localhost:3000` (ou le port affiché).
+Puis ouvrir <http://localhost:8000>. La base `api/data/success.db` est créée au premier appel de l'API.
 
-## Mode démo (offline)
+Sans backend PHP (par exemple avec `npx serve`), le site public s'affiche avec les données de secours de `js/api.js`, en lecture seule. L'administration et les formulaires nécessitent le backend.
 
-Sans backend PHP, le site public s'affiche avec les données démo de `api.js` (lecture seule).
-L'administration et les formulaires (commentaires, contact, newsletter) nécessitent le backend.
+## Administration
 
-## Compte administrateur
-
-À la création de la base, le mot de passe admin est pris dans la variable d'environnement
-`SMTV_ADMIN_PASSWORD`, sinon généré aléatoirement et écrit dans `api/data/admin-password.txt`
-(dossier inaccessible depuis le web). Pour le changer :
+- Adresse : `/#/admin/login` (en ligne : <https://successmedia-tv.com/#/admin/login>)
+- À la création de la base, le compte `admin` reçoit le mot de passe de la variable d'environnement `SMTV_ADMIN_PASSWORD`, sinon un mot de passe aléatoire écrit dans `api/data/admin-password.txt`.
+- Pour changer le mot de passe (le fichier `admin-password.txt` est alors supprimé) :
 
 ```bash
-php api/set-admin-password.php "<nouveau-mot-de-passe>"
+php api/set-admin-password.php "<nouveau-mot-de-passe>" [utilisateur]
 ```
+
+## Mise en ligne
+
+1. Envoyer les fichiers du dépôt sur un serveur Apache (avec `mod_rewrite`) ou Nginx (voir `api/nginx.conf`) et PHP 8.
+2. **Ne pas écraser `api/data/success.db`** s'il existe déjà sur le serveur : il contient le contenu publié depuis l'admin.
+3. Ouvrir une page du site : les migrations de la base s'appliquent automatiquement.
+4. Vérifier que `api/data/` n'est pas accessible depuis le navigateur.
+5. Changer le mot de passe admin avec `api/set-admin-password.php`.
+
+Après une modification des fichiers JS ou CSS, augmenter `CACHE_NAME` dans `sw.js` pour que les visiteurs reçoivent la nouvelle version.
+
+## Configuration
+
+| Réglage | Fichier |
+|---|---|
+| Rubriques de la navigation | `RUBRIQUES` dans `js/app-core.js` (et `api/index.php` pour la base) |
+| Réseaux sociaux | `SOCIAL_LINKS` dans `js/app-core.js` |
+| Flux de la radio | `RADIO_STREAM_URL` dans `api/index.php` (vide : bouton masqué) |
+| Domaine (liens canoniques, sitemap) | `js/app-core.js`, `sitemap.php` |
 
 ## API
 
-Endpoint attendu : `/api` (préfixe).  
-En cas d'indisponibilité, le fallback `DEMO` prend le relais.
+Préfixe : `/api`. Les routes marquées 🔒 demandent l'en-tête `Authorization: Bearer <token>` obtenu à la connexion.
 
-Routes démo disponibles :
-- `GET /api/articles` — articles avec pagination
-- `GET /api/articles/:slug` — article individuel
-- `GET /api/lives` — liste des directs
-- `GET /api/lives/current` — direct en cours
-- `GET /api/categories` — catégories
-- `GET /api/podcasts` — podcasts
-- `GET /api/gallery` — galerie
-- `GET /api/radio/stream` — URL du flux radio
-- `POST /api/auth/login` — authentification
-- CRUD admin sur `/api/admin/*`
+| Méthode | Route | Description |
+|---|---|---|
+| POST | `/auth/login` | Connexion (renvoie un token) |
+| GET | `/stats` 🔒 | Statistiques du tableau de bord |
+| GET | `/articles` | Liste (`category`, `featured`, `sort=views`, `limit`, `page`, `per_page`, `all` 🔒) |
+| GET | `/articles/:slug` | Article (les brouillons demandent 🔒) |
+| POST / PUT / DELETE | `/articles`, `/articles/:id` 🔒 | Gestion des articles |
+| GET | `/categories` | Catégories avec nombre d'articles |
+| POST / PUT / DELETE | `/categories`, `/categories/:id` 🔒 | Gestion des catégories |
+| GET | `/lives`, `/lives/current` | Lives, direct en cours |
+| POST / PUT / DELETE | `/lives`, `/lives/:id` 🔒 | Gestion des lives |
+| GET | `/podcasts` | Podcasts |
+| POST / PUT / DELETE | `/podcasts`, `/podcasts/:id` 🔒 | Gestion des podcasts |
+| GET | `/gallery`, `/gallery/categories` | Galerie |
+| POST / PUT / DELETE | `/gallery`, `/gallery/:id` 🔒 | Gestion de la galerie |
+| GET / POST | `/comments/article/:id`, `/comments` | Commentaires |
+| POST | `/contact`, `/newsletter` | Formulaires publics |
+| GET | `/contact` 🔒 | Messages reçus |
+| GET | `/search?q=` | Recherche |
+| GET / POST / DELETE | `/upload`, `/upload/multiple`, `/upload/:fichier` 🔒 | Médiathèque (images JPG, PNG, WebP, GIF, 10 Mo max) |
+| GET | `/programs`, `/radio/stream` | Grille des programmes, flux radio |
 
 ## Images
 
-Le site ne contient plus d'images de banque. Les photos des articles, lives, podcasts et de la galerie s'ajoutent depuis l'administration (section Médiathèque).
+Le site ne contient pas d'images de banque. Les photos des articles, lives, podcasts et de la galerie s'ajoutent depuis l'administration (Médiathèque). `images/cover-success.svg` sert de visuel neutre tant qu'un article n'a pas de vraie photo.
+
+## Crédits
+
+Conception : MBAIHORNOM Wilfried — Success Media TV, entité du groupe ND Media-w4b.
