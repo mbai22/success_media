@@ -237,10 +237,7 @@ function seedData(PDO $pdo): void {
         ['tchad-forum-investissement-macao-2026', 'Le Tchad au 17e Forum international sur l\'investissement à Macao', 'Une délégation tchadienne conduite par le ministre Amir Idriss Kourda a pris part au 17e Forum et Exposition internationale sur l\'investissement à Macao du 10 au 12 juin 2026.', "Le Tchad a pris part au 17ᵉ Forum et Exposition internationale sur l'investissement et la construction des infrastructures organisé à Macao du 10 au 12 juin 2026.\n\nConduite par le ministre Amir Idriss Kourda, la délégation tchadienne a échangé avec des investisseurs et experts internationaux sur les enjeux du développement des infrastructures de transport, du financement des projets structurants et des innovations technologiques du secteur.\n\nUne participation qui s'inscrit dans la dynamique de modernisation et de désenclavement du pays. Success Media TV vous propose un décryptage de cette participation stratégique pour le Tchad.", 'Politique', 'politique', './images/Forum-17.png', '2026-06-12T10:00:00Z', 312, '2026-06-12T10:00:00Z'],
         ['ia-intelligence-artificielle-vox-pop', 'L\'intelligence artificielle peut-elle remplacer l\'être humain ?', 'L\'IA progresse à grande vitesse et transforme notre façon de travailler, d\'apprendre et de communiquer. Donnez votre avis.', "𝗩𝗢𝗫 𝗣𝗢𝗣 : L'intelligence artificielle progresse à grande vitesse et transforme déjà notre façon de travailler, d'apprendre et de communiquer.\n\nMais peut-elle réellement remplacer l'être humain ? C'est la question que Success Media TV pose à ses lecteurs.\n\nL'IA est-elle une opportunité, une menace ou un outil complémentaire au service de l'homme ? Les avis sont partagés. Entre craintes et espoirs, le débat est ouvert.\n\nDonnez-nous votre avis en commentaire : l'IA est-elle une opportunité, une menace ou un outil complémentaire au service de l'homme ?", 'Technologie', 'technologie', './images/intelligence-humain.png', '2026-06-12T08:00:00Z', 245, '2026-06-12T08:00:00Z'],
         ['forum-affaires-france-tchad-268-projets', 'Forum d\'affaires France–Tchad : 268 projets pour séduire les investisseurs', 'À trois mois du Forum d\'affaires France–Tchad de Paris, le gouvernement tchadien présente un portefeuille de 268 projets.', "À trois mois du Forum d'affaires France–Tchad de Paris, le gouvernement tchadien intensifie sa mobilisation auprès du patronat français.\n\nLe ministre des Finances, Tahir Hamid Nguilin, doit présenter un portefeuille de 268 projets représentant près de 30 milliards de dollars d'investissements à mobiliser d'ici à 2030.\n\nCette initiative vise à attirer davantage de capitaux dans des secteurs stratégiques tels que les infrastructures, l'énergie, l'agriculture, l'industrie et le numérique, afin d'accélérer la transformation économique du pays.", 'Economie', 'economie', './images/forum-Tchad-France.png', '2026-06-11T14:00:00Z', 189, '2026-06-11T14:00:00Z'],
-        ['bcc-banque-commerciale-chari-reouverture', 'La BCC rouvre son siège après rénovation', 'La Banque Commerciale du Chari annonce la réouverture officielle de son siège à N\'Djamena après d\'importants travaux de rénovation.', "La Banque Commerciale du Chari (BCC) a annoncé la réouverture officielle de son siège à N'Djamena, prévue le samedi 13 juin 2026, à l'issue d'importants travaux de rénovation.\n\nSelon la banque, cette modernisation vise à offrir un meilleur accueil aux clients, davantage de confort et une expérience bancaire adaptée aux exigences actuelles du secteur financier.\n\nÀ travers cette réhabilitation, la BCC réaffirme sa volonté de renforcer la qualité de ses services et de placer la satisfaction de sa clientèle au cœur de ses priorités.\n\nLa cérémonie de réouverture permettra au public de découvrir un cadre entièrement rénové, conçu pour répondre aux attentes d'une clientèle en quête de proximité, d'efficacité et de modernité.", 'Economie', 'economie', './images/bcc-siege-ndjamena.webp', '2026-06-10T09:00:00Z', 156, '2026-06-10T09:00:00Z'],
         ['centrale-thermique-farcha-tchad', 'Le Tchad renforce ses capacités électriques avec une centrale de 40 MW', 'Le Premier ministre Allah Maye Halina a lancé les travaux de construction d\'une centrale thermique de 40 MW à Farcha, à N\'Djamena.', "Le Premier ministre Allah Maye Halina et son homologue algérien ont lancé ce 8 juin 2026 les travaux de construction d'une centrale thermique de 40 MW à Farcha, à N'Djamena.\n\nFinancé avec l'appui de l'Algérie, ce projet stratégique vise à améliorer l'accès à l'électricité, soutenir le développement économique et créer des emplois.\n\nLes autorités tchadiennes saluent une coopération concrète qui contribue au renforcement de la souveraineté énergétique du pays.", 'Societe', 'societe', './images/cover-success.svg', '2026-06-08T16:00:00Z', 278, '2026-06-08T16:00:00Z'],
-        ['semaine-culturelle-inter-etablissements-sarh', 'Sarh : la jeunesse scolaire à l\'honneur lors de la Semaine culturelle inter-établissements', 'La première édition de la Semaine culturelle inter-établissements à Sarh réunit une vingtaine d\'établissements autour de la culture, l\'excellence et le numérique.', "À Sarh, la première édition de la Semaine culturelle inter-établissements a été officiellement lancée au Palais des Arts et de la Culture Ngarta Tombalbaye.\n\nL'événement, qui se déroule du 18 au 26 avril 2026, réunit une vingtaine d'établissements autour du thème : « Culture, Excellence et Numérique : la jeunesse scolaire au cœur de l'évolution ».\n\nLa cérémonie d'ouverture a enregistré la présence de plusieurs autorités locales, responsables éducatifs et un public scolaire fortement mobilisé.\n\nCette semaine culturelle se positionne comme un espace d'expression, de compétition saine et de valorisation du potentiel scolaire dans la ville de Sarh.", 'Culture', 'culture', './images/semaine-culturelle-sarh.webp', '2026-04-19T10:00:00Z', 201, '2026-04-19T10:00:00Z'],
-        ['formation-journalisme-jeunes-sarh', 'Des jeunes de Sarh s\'initient au journalisme', 'L\'Organisation des jeunes bâtisseurs tchadiens a organisé une session de formation aux fondamentaux du journalisme à Sarh.', "Du 25 au 29 mars 2026, l'Organisation des jeunes bâtisseurs tchadiens (OJBT) a organisé une session de formation baptisée « Un pas en journalisme », au Palais des arts et de la culture Ngarta Tombalbaye de Sarh.\n\nCette initiative était destinée aux jeunes de la ville de Sarh désireux de découvrir les fondamentaux du journalisme et de la communication.\n\nPendant cinq jours, les participants ont bénéficié de l'encadrement de professionnels des médias, notamment des journalistes du Quotidien Le Progrès et de RFI.\n\nCette formation visait à développer des compétences pratiques et à préparer une relève capable de répondre aux défis du paysage médiatique.", 'Societe', 'societe', './images/cover-success.svg', '2026-03-31T15:00:00Z', 167, '2026-03-31T15:00:00Z'],
     ];
     $stmt = $pdo->prepare("INSERT INTO articles (slug, title, excerpt, content, author, category_slug, image, created_at, views, updated_at) VALUES (?, ?, ?, ?, 'Success Media', ?, ?, ?, ?, ?)");
     foreach ($articles as $a) $stmt->execute([$a[0], $a[1], $a[2], $a[3], $a[5], $a[6], $a[7], $a[8], $a[9]]);
@@ -292,6 +289,28 @@ function requireAuth(PDO $pdo): array {
 
 // Articles with the name of their category
 const ARTICLE_SELECT = "SELECT a.*, c.name AS category_name FROM articles a LEFT JOIN categories c ON c.slug = a.category_slug";
+
+// URL slug: accents transliterated (é → e), lowercase, words joined by "-"
+function slugify(string $text, string $fallback = 'article'): string {
+    $map = ['à'=>'a','á'=>'a','â'=>'a','ä'=>'a','ã'=>'a','å'=>'a','æ'=>'ae','ç'=>'c','è'=>'e','é'=>'e','ê'=>'e','ë'=>'e',
+        'ì'=>'i','í'=>'i','î'=>'i','ï'=>'i','ñ'=>'n','ò'=>'o','ó'=>'o','ô'=>'o','ö'=>'o','õ'=>'o','œ'=>'oe','ù'=>'u','ú'=>'u',
+        'û'=>'u','ü'=>'u','ý'=>'y','ÿ'=>'y','’'=>'-',"'"=>'-'];
+    $text = strtr(mb_strtolower(trim($text), 'UTF-8'), $map);
+    $slug = trim(preg_replace('/[^a-z0-9]+/', '-', $text), '-');
+    $slug = trim(substr($slug, 0, 90), '-');
+    return $slug !== '' ? $slug : $fallback;
+}
+
+// Adds -2, -3… when the slug is already used by another row
+function uniqueSlug(PDO $pdo, string $table, string $slug, ?int $exceptId = null): string {
+    $candidate = $slug;
+    $stmt = $pdo->prepare("SELECT COUNT(*) FROM $table WHERE slug = ? AND id != ?");
+    for ($i = 2; ; $i++) {
+        $stmt->execute([$candidate, $exceptId ?? 0]);
+        if (!$stmt->fetchColumn()) return $candidate;
+        $candidate = $slug . '-' . $i;
+    }
+}
 
 function getPageParams(): array {
     $page = max(1, intval($_GET['page'] ?? 1));
@@ -346,10 +365,11 @@ try {
     // ----- ARTICLES -----
     if (preg_match('#^/articles/(\d+)$#', $uri, $m) && $method === 'PUT') {
         requireAuth($pdo);
+        $slug = uniqueSlug($pdo, 'articles', slugify($input['slug'] ?? '' ?: ($input['title'] ?? '')), (int)$m[1]);
         $stmt = $pdo->prepare("UPDATE articles SET title=?, slug=?, excerpt=?, content=?, category_slug=?, image=?, author=?, featured=?, published=?, updated_at=CURRENT_TIMESTAMP WHERE id=?");
         $stmt->execute([
             $input['title'] ?? '',
-            $input['slug'] ?? '',
+            $slug,
             $input['excerpt'] ?? '',
             $input['content'] ?? '',
             $input['category_slug'] ?? '',
@@ -421,11 +441,7 @@ try {
 
     if ($uri === '/articles' && $method === 'POST') {
         requireAuth($pdo);
-        $slug = $input['slug'] ?? '';
-        if (empty($slug)) {
-            $slug = preg_replace('/[^a-z0-9]+/', '-', strtolower(trim($input['title'] ?? '')));
-            $slug = trim($slug, '-');
-        }
+        $slug = uniqueSlug($pdo, 'articles', slugify($input['slug'] ?? '' ?: ($input['title'] ?? '')));
         $stmt = $pdo->prepare("INSERT INTO articles (slug, title, excerpt, content, author, category_slug, image, featured, published) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
         $stmt->execute([
             $slug,
@@ -464,7 +480,7 @@ try {
     }
     if ($uri === '/categories' && $method === 'POST') {
         requireAuth($pdo);
-        $slug = $input['slug'] ?? strtolower(trim(preg_replace('/[^a-z0-9]+/', '-', $input['name'] ?? '')), '-');
+        $slug = uniqueSlug($pdo, 'categories', slugify($input['slug'] ?? '' ?: ($input['name'] ?? ''), 'rubrique'));
         $stmt = $pdo->prepare("INSERT INTO categories (name, slug, description) VALUES (?, ?, ?)");
         $stmt->execute([$input['name'] ?? '', $slug, $input['description'] ?? '']);
         $id = $pdo->lastInsertId();

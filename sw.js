@@ -1,11 +1,11 @@
-const CACHE_NAME = 'smtv-v11'
+const CACHE_NAME = 'smtv-v13'
 const urlsToCache = [
-  './',
-  'css/style.css',
-  'js/api.js',
-  'js/app-core.js',
-  'js/app-pages.js',
-  'js/app-main.js',
+  '/',
+  '/css/style.css',
+  '/js/api.js',
+  '/js/app-core.js',
+  '/js/app-pages.js',
+  '/js/app-main.js',
 ]
 
 self.addEventListener('install', (event) => {
@@ -29,6 +29,12 @@ self.addEventListener('fetch', (event) => {
   const url = new URL(event.request.url)
   if (url.origin !== self.location.origin || url.pathname.startsWith('/api/')) return
 
+  // Pages: always the network (fresh SEO tags and content), the cached home page when offline
+  if (event.request.mode === 'navigate') {
+    event.respondWith(fetch(event.request).catch(() => caches.match('/')))
+    return
+  }
+
   event.respondWith(
     caches.match(event.request).then((cached) => {
       const fetchPromise = fetch(event.request).then((response) => {
@@ -44,5 +50,5 @@ self.addEventListener('fetch', (event) => {
 })
 
 function isCacheable(request) {
-  return ['document', 'style', 'script', 'image', 'font'].indexOf(request.destination) >= 0
+  return ['style', 'script', 'image', 'font'].indexOf(request.destination) >= 0
 }

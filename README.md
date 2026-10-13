@@ -21,7 +21,7 @@ Site en ligne : <https://successmedia-tv.com>
 
 ## Stack technique
 
-- **Front** — HTML, CSS et JavaScript sans framework, routage par hash (`#/`, `#/blog?category=finance`, `#/article/<slug>`…)
+- **Front** — HTML, CSS et JavaScript sans framework, adresses propres gérées par l'historique du navigateur (`/`, `/rubrique/finance`, `/article/<slug>`, `/actualites`…). Les anciens liens `#/…` sont redirigés.
 - **API** — PHP 8 + SQLite (`api/index.php`), base créée et mise à jour automatiquement
 - **Polices** — Inter et Work Sans (Google Fonts), icônes Font Awesome intégrées dans `css/style.css`
 
@@ -29,10 +29,12 @@ Site en ligne : <https://successmedia-tv.com>
 
 ```
 success/
-├── index.html               # Page unique de l'application
+├── index.php                # Contrôleur SEO : balises, données structurées et contenu de chaque page
+├── index.html               # Gabarit de l'application (utilisé par index.php)
+├── robots.txt               # Consignes pour les moteurs de recherche
 ├── manifest.json            # Manifeste PWA
 ├── sw.js                    # Service worker (cache des fichiers statiques)
-├── .htaccess                # Réécriture /api et sitemap.xml, protection des fichiers sensibles
+├── .htaccess                # Pages → index.php, /api, sitemap.xml, compression, cache, protection
 ├── router.php               # Routeur pour le serveur PHP intégré (développement)
 ├── sitemap.php              # Sitemap servi sur /sitemap.xml
 ├── logo.png, logo-jaune.svg # Logos
@@ -66,7 +68,7 @@ Sans backend PHP (par exemple avec `npx serve`), le site public s'affiche avec l
 
 ## Administration
 
-- Adresse : `/#/admin/login` (en ligne : <https://successmedia-tv.com/#/admin/login>)
+- Adresse : `/admin/login` (en ligne : <https://successmedia-tv.com/admin/login>)
 - À la création de la base, le compte `admin` reçoit le mot de passe de la variable d'environnement `SMTV_ADMIN_PASSWORD`, sinon un mot de passe aléatoire écrit dans `api/data/admin-password.txt`.
 - Pour changer le mot de passe (le fichier `admin-password.txt` est alors supprimé) :
 
@@ -91,7 +93,16 @@ Après une modification des fichiers JS ou CSS, augmenter `CACHE_NAME` dans `sw.
 | Rubriques de la navigation | `RUBRIQUES` dans `js/app-core.js` (et `api/index.php` pour la base) |
 | Réseaux sociaux | `SOCIAL_LINKS` dans `js/app-core.js` |
 | Flux de la radio | `RADIO_STREAM_URL` dans `api/index.php` (vide : bouton masqué) |
-| Domaine (liens canoniques, sitemap) | `js/app-core.js`, `sitemap.php` |
+| Domaine (liens canoniques, sitemap) | `index.php`, `sitemap.php`, `robots.txt`, `js/app-core.js` |
+
+## SEO
+
+- **Une adresse par page** : `/article/<slug>`, `/rubrique/<slug>`, `/actualites`, `/lives`, `/podcasts`, `/galerie`, `/a-propos`.
+- **`index.php`** renvoie pour chaque adresse : titre, description, lien canonique, balises Open Graph et Twitter (aperçus Facebook, WhatsApp, LinkedIn), données structurées JSON-LD (`NewsMediaOrganization`, `WebSite`, `NewsArticle`, `BreadcrumbList`, `CollectionPage`) et une version HTML du contenu lisible sans JavaScript.
+- **Codes HTTP** : 404 pour un article ou une rubrique inexistants ; `noindex` pour l'administration, les pages introuvables et les rubriques encore vides.
+- **`/sitemap.xml`** : pages, rubriques ayant des articles et articles publiés, avec date de mise à jour et image.
+- **`robots.txt`** : tout est autorisé sauf `/admin`.
+- Après la mise en ligne : déclarer le site et `https://successmedia-tv.com/sitemap.xml` dans Google Search Console et Bing Webmaster Tools.
 
 ## API
 

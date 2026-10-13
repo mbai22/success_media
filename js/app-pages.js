@@ -1,6 +1,6 @@
 ﻿/* ============ PAGE RENDERERS ============ */
 function renderHome() {
-  setPageMeta('Accueil', 'Success Media TV — Média tchadien basé à Sarh, production de contenus audiovisuels de qualité.', '/');
+  setPageMeta('Accueil', null, '/');
   return '<div class="page-content" id="page-home">'
     + '<div class="loading-screen" id="home-loading">'
     + '<div class="loading-spinner"><i class="fas fa-tower-broadcast"></i></div>'
@@ -39,7 +39,7 @@ function renderBlog() {
   var catFilter = state.searchParams.get('category');
   var rubrique = RUBRIQUES.find(function(r) { return r.slug === catFilter; });
   var title = rubrique ? rubrique.name : (catFilter ? 'Actualités' : 'Toutes les actualités');
-  setPageMeta(title, 'Toute l\'actualité économique et business de Success Media TV au Tchad.', '/blog' + (catFilter ? '?category=' + encodeURIComponent(catFilter) : ''));
+  setPageMeta(title, 'Toute l\'actualité économique et business de Success Media TV au Tchad.', blogUrl(catFilter));
   return '<div class="page-content container" id="page-blog">'
     + '<div class="page-header">'
     + '<h1><i class="fas ' + (rubrique ? rubrique.icon : 'fa-newspaper') + '" style="margin-right:10px;color:var(--primary)"></i> ' + esc(title) + '</h1>'
@@ -61,7 +61,7 @@ function setArticleMeta(article) {
 }
 
 function renderEmissions() {
-  setPageMeta('Émissions', 'Découvrez la grille des émissions de Success Media TV — Matinales, débats, culture, sport et divertissement.', '/émissions');
+  setPageMeta('Émissions', 'Découvrez la grille des émissions de Success Media TV — Matinales, débats, culture, sport et divertissement.', '/emissions');
   return '<div class="page-content container" id="page-emissions">'
     + '<div class="page-header">'
     + '<h1><i class="fas fa-calendar-alt" style="margin-right:10px;color:var(--primary)"></i> Grille des Émissions</h1>'
@@ -141,37 +141,44 @@ function renderAdminLogin() {
     + '<button type="submit" class="btn btn-primary" style="width:100%;margin-top:10px">Se connecter</button></form></div></div>';
 }
 
+var ADMIN_NAV = [
+  { id: 'dashboard', label: 'Tableau de bord', icon: 'fa-table-cells-large' },
+  { id: 'articles', label: 'Articles', icon: 'fa-newspaper' },
+  { id: 'lives', label: 'Lives', icon: 'fa-video' },
+  { id: 'podcasts', label: 'Podcasts', icon: 'fa-podcast' },
+  { id: 'gallery', label: 'Galerie', icon: 'fa-images' },
+  { id: 'categories', label: 'Catégories', icon: 'fa-tags' },
+  { id: 'media', label: 'Médiathèque', icon: 'fa-folder-open' },
+  { id: 'messages', label: 'Messages', icon: 'fa-envelope' },
+];
+
 function renderAdmin() {
-  setPageMeta('Administration' + (state.adminSection ? ' - ' + state.adminSection.charAt(0).toUpperCase() + state.adminSection.slice(1) : ''));
-  if (!state.user) { navigate('/admin/login'); return ''; }
-  const navItems = [
-    { id: 'dashboard', label: 'Dashboard', icon: 'fa-gauge-high' },
-    { id: 'articles', label: 'Articles', icon: 'fa-newspaper' },
-    { id: 'podcasts', label: 'Podcasts', icon: 'fa-podcast' },
-    { id: 'lives', label: 'Emissions', icon: 'fa-video' },
-    { id: 'categories', label: 'Categories', icon: 'fa-tags' },
-    { id: 'gallery', label: 'Galerie', icon: 'fa-images' },
-    { id: 'media', label: 'Mediatheque', icon: 'fa-folder-open' },
-    { id: 'messages', label: 'Messages', icon: 'fa-envelope' },
-  ];
-  return '<div class="page-content" id="page-admin" style="display:flex;min-height:100vh;background:var(--bg-dark)">'
-    + '<aside style="width:250px;background:var(--bg-card);border-right:1px solid var(--border);display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;z-index:50;overflow-y:auto">'
-    + '<div style="padding:20px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px">'
-    + '<img src="./logo.png" alt="" style="height:36px;width:auto;flex-shrink:0">'
-    + '<div><div style="font-weight:700;font-size:0.95rem">Success Media</div><div style="font-size:0.75rem;color:var(--text-muted)">Administration</div></div></div>'
-    + '<nav style="flex:1;padding:12px 8px">'
-    + navItems.map(function(item) {
-      return '<button class="admin-nav-btn' + (state.adminSection === item.id ? ' active' : '') + '" data-section="' + item.id + '" style="width:100%;display:flex;align-items:center;gap:12px;padding:10px 12px;margin-bottom:2px;border-radius:var(--radius-sm);border:none;background:' + (state.adminSection === item.id ? 'rgba(230,57,70,0.15)' : 'transparent') + ';color:' + (state.adminSection === item.id ? 'var(--primary)' : 'var(--text-secondary)') + ';font-weight:' + (state.adminSection === item.id ? '600' : '400') + ';font-size:0.9rem;cursor:pointer;text-align:left">'
-        + '<i class="fas ' + item.icon + '" style="width:20px;text-align:center;flex-shrink:0"></i><span>' + item.label + '</span></button>';
+  if (!state.user) { setTimeout(function() { navigate('/admin/login', { replace: true }); }); return ''; }
+  var current = ADMIN_NAV.find(function(n) { return n.id === state.adminSection; }) || ADMIN_NAV[0];
+  setPageMeta('Administration — ' + current.label);
+  var name = state.user.name || state.user.username || 'Admin';
+  return '<div class="page-content adm" id="page-admin">'
+    + '<div class="adm-frame">'
+    + '<aside class="adm-side">'
+    + '<a href="/" class="adm-brand" title="Voir le site"><img src="./logo-jaune.svg" alt=""><span><strong>Success</strong><small>Media TV</small></span></a>'
+    + '<nav class="adm-nav" aria-label="Administration">'
+    + ADMIN_NAV.map(function(item) {
+      var active = item.id === current.id;
+      return '<button type="button" class="admin-nav-btn' + (active ? ' active' : '') + '" data-section="' + item.id + '"' + (active ? ' aria-current="page"' : '') + '>'
+        + '<i class="fas ' + item.icon + '"></i><span>' + item.label + '</span></button>';
     }).join('')
     + '</nav>'
-    + '<div style="padding:12px 8px;border-top:1px solid var(--border)">'
-    + '<button id="admin-logout" style="width:100%;display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:var(--radius-sm);border:none;background:transparent;color:var(--text-muted);font-size:0.9rem;cursor:pointer">'
-    + '<i class="fas fa-right-from-bracket" style="width:20px;text-align:center"></i><span>Déconnexion</span></button></div></aside>'
-    + '<div style="margin-left:250px;flex:1;min-height:100vh">'
-    + '<header style="height:60px;background:var(--bg-card);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 24px;position:sticky;top:0;z-index:40">'
-    + '<h2 style="font-size:1.1rem;font-weight:700" id="admin-section-title">' + (navItems.find(function(n) { return n.id === state.adminSection; })?.label || 'Dashboard') + '</h2>'
-    + '<a href="/" target="_blank" rel="noopener noreferrer" style="font-size:0.85rem;color:var(--accent)"><i class="fas fa-external-link-alt" style="margin-right:6px"></i>Voir le site</a></header>'
-    + '<div style="padding:24px" id="admin-content"><div class="loading"><i class="fas fa-circle-notch fa-spin" style="font-size:2rem;color:var(--primary)"></i></div></div></div></div>';
+    + '<button type="button" id="admin-logout" class="adm-logout"><i class="fas fa-right-from-bracket"></i><span>Déconnexion</span></button>'
+    + '<div class="adm-version">Success Media TV · admin</div>'
+    + '</aside>'
+    + '<div class="adm-main">'
+    + '<header class="adm-top">'
+    + '<h1 id="admin-section-title">' + esc(current.label) + '</h1>'
+    + '<div class="adm-top-actions">'
+    + '<a href="/" class="adm-icon-btn" target="_blank" rel="noopener noreferrer" title="Voir le site" aria-label="Voir le site"><i class="fas fa-arrow-up-right-from-square"></i></a>'
+    + '<button type="button" class="adm-icon-btn" data-goto="messages" title="Messages" aria-label="Messages"><i class="fas fa-envelope"></i><span class="adm-badge" id="adm-msg-badge" hidden></span></button>'
+    + '<div class="adm-user"><span>' + esc(name) + '</span><span class="adm-avatar" aria-hidden="true">' + esc(name.charAt(0).toUpperCase()) + '</span></div>'
+    + '</div></header>'
+    + '<div class="adm-panel" id="admin-content"><div class="loading"><i class="fas fa-circle-notch fa-spin" style="font-size:2rem;color:var(--primary)"></i></div></div>'
+    + '</div></div></div>';
 }
-

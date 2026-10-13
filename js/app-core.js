@@ -130,51 +130,100 @@ function debounce(fn, ms) {
 }
 
 /* ============ ROUTER ============ */
-function parseHash() {
-  let hash = window.location.hash.replace('#', '') || '/';
-  if (!hash.startsWith('/')) hash = '/' + hash;
-  const hashPath = hash.split('?')[0];
-  const parts = hashPath.split('/').filter(Boolean);
-  const params = {};
-  let route = '';
+/* Clean URLs: /article/<slug>, /rubrique/<slug>, /actualites, /lives… (served by index.php) */
+function parseRoute() {
+  var parts = window.location.pathname.split('/').filter(Boolean).map(function(p) {
+    try { return decodeURIComponent(p); } catch (e) { return p; }
+  });
+  var search = new URLSearchParams(window.location.search);
+  var params = {};
+  var route;
 
   if (parts[0] === 'admin') {
     route = parts[1] === 'login' ? 'admin-login' : 'admin';
   } else if (parts[0] === 'article' && parts[1]) {
     route = 'article';
     params.slug = parts[1];
-  } else if (parts[0] === 'emissions') route = 'emissions';
+  } else if (parts[0] === 'rubrique' && parts[1]) {
+    route = 'blog';
+    search.set('category', parts[1]);
+  } else if (parts[0] === 'actualites' || parts[0] === 'blog') route = 'blog';
+  else if (parts[0] === 'emissions') route = 'emissions';
   else if (parts[0] === 'lives') route = 'lives';
   else if (parts[0] === 'podcasts') route = 'podcasts';
-  else if (parts[0] === 'blog') route = 'blog';
   else if (parts[0] === 'galerie') route = 'gallery';
   else if (parts[0] === 'a-propos') route = 'about';
   else route = 'home';
 
   state.route = route;
   state.params = params;
-  state.searchParams = new URLSearchParams(hash.split('?')[1] || '');
+  state.searchParams = search;
 }
 
-function navigate(path) {
-  window.location.hash = path;
+/* URL slug: accents removed (é → e), lowercase, words joined by "-" (same rule as the API) */
+function slugify(text) {
+  return String(text || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase()
+    .replace(/œ/g, 'oe').replace(/æ/g, 'ae').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 90);
+}
+
+/* URL of a news list: one rubrique or all the news, with an optional page */
+function blogUrl(category, page) {
+  var url = category ? '/rubrique/' + encodeURIComponent(category) : '/actualites';
+  return page > 1 ? url + '?page=' + page : url;
+}
+
+/* Old "#/…" links (shared before the clean URLs) → equivalent path */
+function legacyHashPath() {
+  var hash = window.location.hash;
+  if (hash.indexOf('#/') !== 0) return null;
+  var path = hash.slice(1);
+  var blog = path.match(/^\/blog(?:\?(.*))?$/);
+  if (blog) {
+    var p = new URLSearchParams(blog[1] || '');
+    return blogUrl(p.get('category'), parseInt(p.get('page'), 10) || 1);
+  }
+  return path;
+}
+
+function navigate(path, options) {
+  if (options && options.replace) history.replaceState({}, '', path);
+  else if (path !== window.location.pathname + window.location.search) history.pushState({}, '', path);
+  state.menuOpen = false;
+  parseRoute();
+  render();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 function initRouter() {
-  parseHash();
+  var legacy = legacyHashPath();
+  if (legacy) history.replaceState({}, '', legacy);
+  parseRoute();
   render();
-  window.addEventListener('hashchange', function() {
+  window.addEventListener('popstate', function() {
     state.menuOpen = false;
-    parseHash();
+    parseRoute();
     render();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+  // Internal links are handled here, without reloading the page
+  document.addEventListener('click', function(e) {
+    if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    var a = e.target.closest('a[href]');
+    if (!a || a.target === '_blank' || a.hasAttribute('download')) return;
+    var href = a.getAttribute('href');
+    if (!href || href.charAt(0) !== '/' || href.indexOf('//') === 0) return;
+    if (/^\/(api|images|css|js|assets)\//.test(href) || /\.[a-z0-9]+$/i.test(href.split('?')[0])) return;
+    e.preventDefault();
+    navigate(href);
   });
 }
 
 /* ============ SEO ============ */
 function setPageMeta(title, description, canonicalPath) {
-  document.title = title + ' — Success Media TV';
-  var desc = description || 'Success Media TV est un média tchadien basé à Sarh, dédié à la production de contenus audiovisuels de qualité.';
+  // Same formats as the server-side tags (index.php)
+  document.title = title === 'Accueil'
+    ? 'Success Media TV — Le business en temps réel au Tchad'
+    : title + ' | Success Media TV';
+  var desc = excerpt(String(description || 'Success Media TV, média tchadien basé à Sarh : actualité économique, finance, business, entrepreneuriat, tech, leadership et opportunités au Tchad.').replace(/\s+/g, ' '), 155);
   var el = document.querySelector('meta[name="description"]');
   if (!el) {
     el = document.createElement('meta');
@@ -208,10 +257,10 @@ function ArticleCard(article, featured) {
       + '<h2>' + esc(article.title) + '</h2>'
       + '<p>' + esc(article.excerpt || (article.content || '').substring(0, 200)) + '</p>'
       + '<div class="article-card-footer"><span>' + esc(article.author) + '</span><span>' + formatDate(article.created_at) + '</span></div>'
-      + '<a href="#/article/' + esc(article.slug) + '" class="btn btn-primary" style="margin-top:15px;align-self:flex-start">Lire la suite</a>'
+      + '<a href="/article/' + esc(article.slug) + '" class="btn btn-primary" style="margin-top:15px;align-self:flex-start">Lire la suite</a>'
       + '</div></div>';
   }
-  return '<a href="#/article/' + esc(article.slug) + '" class="article-card">'
+  return '<a href="/article/' + esc(article.slug) + '" class="article-card">'
     + '<img src="' + esc(article.image || './images/placeholder.svg') + '" alt="' + esc(article.title) + '" class="article-card-image" loading="lazy">'
     + '<div class="article-card-body">'
     + (article.category_name ? '<span class="article-card-category">' + esc(article.category_name) + '</span>' : '')
@@ -308,7 +357,7 @@ function Sidebar() {
     + '</div></div>'
     + '<div class="sidebar-card"><h3><i class="fas fa-layer-group" style="margin-right:8px;color:var(--primary)"></i> Rubriques</h3><div class="sidebar-categories">'
     + RUBRIQUES.map(function(r) {
-      return '<a href="#/blog?category=' + r.slug + '" class="sidebar-link"><i class="fas fa-chevron-right" style="margin-right:8px;font-size:0.7rem;color:var(--text-muted)"></i>' + esc(r.name) + '</a>';
+      return '<a href="' + blogUrl(r.slug) + '" class="sidebar-link"><i class="fas fa-chevron-right" style="margin-right:8px;font-size:0.7rem;color:var(--text-muted)"></i>' + esc(r.name) + '</a>';
     }).join('')
     + '</div></div>'
     + '<div class="sidebar-card sidebar-recents" style="display:none"><h3><i class="fas fa-clock" style="margin-right:8px;color:var(--accent)"></i> Récents</h3><div class="sidebar-recents-list"></div></div>'

@@ -11,38 +11,38 @@ function render() {
   root.innerHTML = '<div id="app">'
     + '<header class="header" id="main-header">'
     + '<div class="header-inner">'
-    + '<a href="#/" class="logo" aria-label="Success Media TV — Accueil"><img src="./logo.png" alt="Success Media TV" style="height:40px;width:auto"></a>'
+    + '<a href="/" class="logo" aria-label="Success Media TV — Accueil"><img src="./logo.png" alt="Success Media TV" style="height:40px;width:auto"></a>'
     + '<nav class="nav" id="main-nav" aria-label="Médias">'
-    + '<div class="nav-item"><a href="#/lives" class="nav-link" data-path="/lives">Lives</a></div>'
-    + '<div class="nav-item"><a href="#/podcasts" class="nav-link" data-path="/podcasts">Podcasts</a></div>'
-    + '<div class="nav-item"><a href="#/galerie" class="nav-link" data-path="/galerie">Galerie</a></div>'
-    + '<div class="nav-item"><a href="#/a-propos" class="nav-link" data-path="/a-propos">À propos</a></div>'
+    + '<div class="nav-item"><a href="/lives" class="nav-link" data-path="/lives">Lives</a></div>'
+    + '<div class="nav-item"><a href="/podcasts" class="nav-link" data-path="/podcasts">Podcasts</a></div>'
+    + '<div class="nav-item"><a href="/galerie" class="nav-link" data-path="/galerie">Galerie</a></div>'
+    + '<div class="nav-item"><a href="/a-propos" class="nav-link" data-path="/a-propos">À propos</a></div>'
     + '<div class="nav-actions">'
-    + '<a href="#/lives" class="live-btn live-btn-tv"><span class="live-dot-sm"></span> Direct TV</a>'
+    + '<a href="/lives" class="live-btn live-btn-tv"><span class="live-dot-sm"></span> Direct TV</a>'
     + '<button id="radio-toggle-btn" class="live-btn live-btn-radio" title="Écouter la radio"><i class="fas fa-microphone" style="font-size:0.75rem"></i> Radio</button>'
     + '<button id="search-open-btn" class="nav-search-btn" title="Rechercher" aria-label="Rechercher"><i class="fas fa-search"></i></button>'
     + '</div></nav>'
     + '<div class="nav-right-mobile">'
-    + '<a href="#/lives" class="live-btn live-btn-tv live-btn-compact" aria-label="Direct TV"><span class="live-dot-sm"></span> Direct</a>'
+    + '<a href="/lives" class="live-btn live-btn-tv live-btn-compact" aria-label="Direct TV"><span class="live-dot-sm"></span> Direct</a>'
     + '<button class="nav-search-btn" id="search-open-btn-mobile" title="Rechercher" aria-label="Rechercher"><i class="fas fa-search"></i></button>'
     + '<button type="button" class="hamburger-lines" id="hamburger-btn" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="mobile-menu"><span class="line line1"></span><span class="line line2"></span><span class="line line3"></span></button></div></div>'
     + '<nav class="rubriques-bar" aria-label="Rubriques"><div class="rubriques-inner">'
-    + '<a href="#/" class="rubrique-link" data-rubrique="">Accueil</a>'
+    + '<a href="/" class="rubrique-link" data-rubrique="">Accueil</a>'
     + RUBRIQUES.map(function(r) {
-      return '<a href="#/blog?category=' + r.slug + '" class="rubrique-link" data-rubrique="' + r.slug + '">' + esc(r.name) + '</a>';
+      return '<a href="' + blogUrl(r.slug) + '" class="rubrique-link" data-rubrique="' + r.slug + '">' + esc(r.name) + '</a>';
     }).join('')
     + '</div></nav>'
     + '<div class="mobile-overlay" id="mobile-overlay"></div>'
     + '<div class="mobile-menu" id="mobile-menu"><div class="mobile-menu-inner"><div class="mobile-menu-links">'
-    + '<a href="#/" class="nav-link-mobile" data-path="/"><i class="fas fa-home nav-icon"></i>Accueil</a>'
+    + '<a href="/" class="nav-link-mobile" data-path="/"><i class="fas fa-home nav-icon"></i>Accueil</a>'
     + RUBRIQUES.map(function(r) {
-      return '<a href="#/blog?category=' + r.slug + '" class="nav-link-mobile" data-rubrique="' + r.slug + '"><i class="fas ' + r.icon + ' nav-icon"></i>' + esc(r.name) + '</a>';
+      return '<a href="' + blogUrl(r.slug) + '" class="nav-link-mobile" data-rubrique="' + r.slug + '"><i class="fas ' + r.icon + ' nav-icon"></i>' + esc(r.name) + '</a>';
     }).join('')
     + '<div class="mobile-menu-divider"></div>'
-    + '<a href="#/lives" class="nav-link-mobile" data-path="/lives"><i class="fas fa-video nav-icon"></i>Lives</a>'
-    + '<a href="#/podcasts" class="nav-link-mobile" data-path="/podcasts"><i class="fas fa-podcast nav-icon"></i>Podcasts</a>'
-    + '<a href="#/galerie" class="nav-link-mobile" data-path="/galerie"><i class="fas fa-images nav-icon"></i>Galerie</a>'
-    + '<a href="#/a-propos" class="nav-link-mobile" data-path="/a-propos"><i class="fas fa-info-circle nav-icon"></i>À propos</a>'
+    + '<a href="/lives" class="nav-link-mobile" data-path="/lives"><i class="fas fa-video nav-icon"></i>Lives</a>'
+    + '<a href="/podcasts" class="nav-link-mobile" data-path="/podcasts"><i class="fas fa-podcast nav-icon"></i>Podcasts</a>'
+    + '<a href="/galerie" class="nav-link-mobile" data-path="/galerie"><i class="fas fa-images nav-icon"></i>Galerie</a>'
+    + '<a href="/a-propos" class="nav-link-mobile" data-path="/a-propos"><i class="fas fa-info-circle nav-icon"></i>À propos</a>'
     + '<div class="mobile-menu-divider"></div>'
     + '<div class="mobile-menu-social">' + socialLinks('social-link') + '</div>'
     + '</div></div></div></header>'
@@ -50,17 +50,17 @@ function render() {
     + '<footer class="footer-enhanced" id="main-footer"><div class="container">'
     + '<div id="footer-newsletter"></div>'
     + '<div class="footer-grid">'
-    + '<div class="footer-col footer-col-brand"><a href="#/" class="footer-logo"><img src="./logo.png" alt="Success Media TV"></a>'
+    + '<div class="footer-col footer-col-brand"><a href="/" class="footer-logo"><img src="./logo.png" alt="Success Media TV"></a>'
     + '<p>Le Micro pour transformer. Success Media TV est un média tchadien basé à Sarh, dédié à la production de contenus audiovisuels de qualité.</p>'
     + '<div class="footer-social">'
     + socialLinks('social-link') + '</div></div>'
     + '<div class="footer-col"><h4>Rubriques</h4>'
-    + RUBRIQUES.map(function(r) { return '<a href="#/blog?category=' + r.slug + '">' + esc(r.name) + '</a>'; }).join('')
+    + RUBRIQUES.map(function(r) { return '<a href="' + blogUrl(r.slug) + '">' + esc(r.name) + '</a>'; }).join('')
     + '</div>'
     + '<div class="footer-col"><h4>Média</h4>'
-    + '<a href="#/lives">Lives</a><a href="#/lives?filter=live">En direct</a><a href="#/lives?filter=replay">Replays</a><a href="#/podcasts">Podcasts</a><a href="#/galerie">Galerie</a></div>'
+    + '<a href="/lives">Lives</a><a href="/lives?filter=live">En direct</a><a href="/lives?filter=replay">Replays</a><a href="/podcasts">Podcasts</a><a href="/galerie">Galerie</a></div>'
     + '<div class="footer-col"><h4>Liens</h4>'
-    + '<a href="#/a-propos">À propos</a><a href="#/a-propos">Contact</a><a href="#/blog">Toutes les actualités</a><a href="#/">Accueil</a></div>'
+    + '<a href="/a-propos">À propos</a><a href="/a-propos">Contact</a><a href="/actualites">Toutes les actualités</a><a href="/">Accueil</a></div>'
     + '<div class="footer-col"><h4>Contact</h4>'
     + '<span class="footer-contact-item"><i class="fas fa-phone"></i>+235 66 57 65 85</span>'
     + '<span class="footer-contact-item"><i class="fas fa-envelope"></i>ndgroupmedia89@gmail.com</span>'
@@ -143,7 +143,7 @@ async function loadTrending() {
     if (!list) return;
     if (items.length) {
       list.innerHTML = items.map(function(a, i) {
-        return '<a href="#/article/' + encodeURIComponent(a.slug || '') + '" class="trending-item">'
+        return '<a href="/article/' + encodeURIComponent(a.slug || '') + '" class="trending-item">'
           + '<span class="trending-rank">' + (i + 1) + '</span>'
           + '<div class="trending-info"><span class="trending-title">' + esc(a.title) + '</span>'
           + '<span class="trending-meta">' + formatDate(a.created_at) + '</span></div></a>';
@@ -278,7 +278,7 @@ function bindEvents() {
   document.querySelectorAll('.filter-btn[data-category]').forEach(function(btn) {
     btn.onclick = function() {
       var cat = btn.dataset.category;
-      navigate(cat ? '/blog?category=' + cat : '/blog');
+      navigate(blogUrl(cat));
     };
   });
 
@@ -346,8 +346,7 @@ function bindEvents() {
 function handlePageClick(page) {
   if (state.route === 'blog') {
     var params = new URLSearchParams(state.searchParams);
-    params.set('page', page);
-    navigate('/blog?' + params.toString());
+    navigate(blogUrl(params.get('category'), page));
   } else if (state.route === 'lives') {
     state.livesPage = page;
     loadLives();
@@ -404,7 +403,7 @@ async function handleSearch() {
     if (data?.articles?.length) {
       html += '<div class="search-result-group"><h4><i class="fas fa-newspaper"></i> Articles (' + data.articles.length + ')</h4>';
       html += data.articles.map(function(a) {
-        return '<a href="#/article/' + encodeURIComponent(a.slug || '') + '" class="search-result-item" onclick="state.searchOpen=false;setTimeout(render,10)">'
+        return '<a href="/article/' + encodeURIComponent(a.slug || '') + '" class="search-result-item" onclick="state.searchOpen=false;setTimeout(render,10)">'
           + (a.image ? '<img src="' + escAttr(safeUrl(a.image, './images/placeholder.svg')) + '" alt="">' : '')
           + '<div><div class="search-result-title">' + esc(a.title) + '</div><span class="search-result-meta">' + esc(a.category_name || 'Article') + '</span></div></a>';
       }).join('');
@@ -413,7 +412,7 @@ async function handleSearch() {
     if (data?.podcasts?.length) {
       html += '<div class="search-result-group"><h4><i class="fas fa-podcast"></i> Podcasts (' + data.podcasts.length + ')</h4>';
       html += data.podcasts.map(function(p) {
-        return '<a href="#/podcasts" class="search-result-item" onclick="state.searchOpen=false;setTimeout(render,10)">'
+        return '<a href="/podcasts" class="search-result-item" onclick="state.searchOpen=false;setTimeout(render,10)">'
           + (p.image ? '<img src="' + escAttr(safeUrl(p.image, './images/placeholder.svg')) + '" alt="">' : '')
           + '<div><div class="search-result-title">' + esc(p.title) + '</div><span class="search-result-meta">Podcast</span></div></a>';
       }).join('');
@@ -422,7 +421,7 @@ async function handleSearch() {
     if (data?.lives?.length) {
       html += '<div class="search-result-group"><h4><i class="fas fa-video"></i> Émissions (' + data.lives.length + ')</h4>';
       html += data.lives.map(function(l) {
-        return '<a href="#/lives" class="search-result-item" onclick="state.searchOpen=false;setTimeout(render,10)">'
+        return '<a href="/lives" class="search-result-item" onclick="state.searchOpen=false;setTimeout(render,10)">'
           + (l.image ? '<img src="' + escAttr(safeUrl(l.image, './images/placeholder.svg')) + '" alt="">' : '')
           + '<div><div class="search-result-title">' + esc(l.title) + '</div><span class="search-result-meta">Émission</span></div></a>';
       }).join('');
@@ -618,7 +617,7 @@ async function loadHome() {
     /* Ticker: latest headlines scrolling under the navigation */
     if (tickerItems.length) {
       var tickerList = tickerItems.map(function(a) {
-        return '<a href="#/article/' + encodeURIComponent(a.slug || '') + '" class="hx-ticker-item">'
+        return '<a href="/article/' + encodeURIComponent(a.slug || '') + '" class="hx-ticker-item">'
           + (a.category_name ? '<span class="hx-ticker-cat">' + esc(a.category_name) + '</span>' : '')
           + esc(a.title) + '</a>';
       }).join('');
@@ -637,14 +636,14 @@ async function loadHome() {
         + '<div class="hx-hero" id="home-hero" aria-roledescription="carrousel" aria-label="À la une">'
         + '<div class="hx-slides">'
         + heroSlides.map(function(a, i) {
-            var url = '#/article/' + encodeURIComponent(a.slug || '');
+            var url = '/article/' + encodeURIComponent(a.slug || '');
             var tag = i === 0 ? 'h1' : 'h2';
             return '<article class="hx-slide' + (i === 0 ? ' is-active' : '') + '"' + (i === 0 ? '' : ' aria-hidden="true" inert') + ' aria-roledescription="diapositive" aria-label="' + (i + 1) + ' sur ' + heroSlides.length + '">'
-              + '<img class="hx-hero-img" src="' + escAttr(safeUrl(a.image, './images/placeholder.svg')) + '" alt=""' + (i === 0 ? '' : ' loading="lazy"') + '>'
+              + '<img class="hx-hero-img" src="' + escAttr(safeUrl(a.image, './images/placeholder.svg')) + '" alt=""' + (i === 0 ? ' fetchpriority="high"' : ' loading="lazy"') + '>'
               + '<div class="hx-hero-shade"></div>'
               + '<div class="hx-hero-body">'
               + '<div class="hx-pills"><span class="hx-pill hx-pill-glass"><i class="fas fa-bolt"></i> ' + (i === 0 ? 'À la une' : 'À lire aussi') + '</span>'
-              + (a.category_name ? '<a href="#/blog?category=' + encodeURIComponent(a.category_slug || '') + '" class="hx-pill hx-pill-glass">' + esc(a.category_name) + '</a>' : '')
+              + (a.category_name ? '<a href="' + blogUrl(a.category_slug) + '" class="hx-pill hx-pill-glass">' + esc(a.category_name) + '</a>' : '')
               + '</div>'
               + '<' + tag + ' class="hx-hero-title"><a href="' + url + '">' + esc(a.title) + '</a></' + tag + '>'
               + '<p class="hx-hero-excerpt">' + esc(excerpt(a.excerpt || a.content, 190)) + '</p>'
@@ -661,7 +660,7 @@ async function loadHome() {
           : '')
         + '<nav class="hx-hero-tabs" aria-label="Rubriques à suivre">'
         + heroTabs.map(function(r, i) {
-            return '<a href="#/blog?category=' + r.slug + '" class="hx-hero-tab' + (i === 0 ? ' is-first' : '') + '">'
+            return '<a href="' + blogUrl(r.slug) + '" class="hx-hero-tab' + (i === 0 ? ' is-first' : '') + '">'
               + '<span>' + esc(r.name) + '</span><i class="fas fa-arrow-right hx-arrow-ne"></i></a>';
           }).join('')
         + '</nav>'
@@ -684,7 +683,7 @@ async function loadHome() {
           // First real photo of the rubrique; otherwise a plain brand gradient
           var withPhoto = s.articles.find(function(a) { return a.image && a.image.indexOf('cover-success.svg') < 0; });
           var count = s.articles.length;
-          return '<a href="#/blog?category=' + s.rubrique.slug + '" class="hx-rub-card' + (withPhoto ? '' : ' hx-rub-blank') + '">'
+          return '<a href="' + blogUrl(s.rubrique.slug) + '" class="hx-rub-card' + (withPhoto ? '' : ' hx-rub-blank') + '">'
             + (withPhoto ? '<img src="' + escAttr(safeUrl(withPhoto.image, './images/placeholder.svg')) + '" alt="" loading="lazy">' : '')
             + '<span class="hx-rub-icon"><i class="fas ' + s.rubrique.icon + '"></i></span>'
             + '<span class="hx-rub-label"><strong>' + esc(s.rubrique.name) + '</strong>'
@@ -701,7 +700,7 @@ async function loadHome() {
     if (latest.length) {
       html += '<div class="cat-section">'
         + '<div class="cat-section-header"><h2><span class="cat-dot" style="background:var(--primary)"></span> Dernières actualités</h2>'
-        + '<a href="#/blog" class="voir-plus">Voir tout <i class="fas fa-arrow-right"></i></a></div>'
+        + '<a href="/actualites" class="voir-plus">Voir tout <i class="fas fa-arrow-right"></i></a></div>'
         + '<div class="article-grid article-grid-wide">' + latest.map(function(a) { return ArticleCard(a); }).join('') + '</div></div>';
     }
 
@@ -709,7 +708,7 @@ async function loadHome() {
     rubriqueSections.forEach(function(s) {
       html += '<div class="cat-section cat-section-featured">'
         + '<div class="cat-section-header"><h2><i class="fas ' + s.rubrique.icon + ' cat-icon"></i> ' + esc(s.rubrique.name) + '</h2>'
-        + '<a href="#/blog?category=' + s.rubrique.slug + '" class="voir-plus">Voir tout <i class="fas fa-arrow-right"></i></a></div>'
+        + '<a href="' + blogUrl(s.rubrique.slug) + '" class="voir-plus">Voir tout <i class="fas fa-arrow-right"></i></a></div>'
         + renderCategoryMix(s.articles, s.rubrique.slug)
         + '</div>';
     });
@@ -725,7 +724,7 @@ async function loadHome() {
         + '<h3 class="sidebar-widget-title"><i class="fas fa-fire"></i> Tendances</h3>'
         + '<div class="sidebar-trending-list">'
         + trending.map(function(a, idx) {
-            return '<a href="#/article/' + encodeURIComponent(a.slug || '') + '" class="sidebar-trending-item">'
+            return '<a href="/article/' + encodeURIComponent(a.slug || '') + '" class="sidebar-trending-item">'
               + '<span class="sidebar-trending-num">' + (idx + 1) + '</span>'
               + '<div class="sidebar-trending-info">'
               + '<h4>' + esc(a.title) + '</h4>'
@@ -740,7 +739,7 @@ async function loadHome() {
       + '<h3 class="sidebar-widget-title"><i class="fas fa-layer-group"></i> Rubriques</h3>'
       + '<div class="sidebar-rubriques-list">'
       + RUBRIQUES.map(function(r) {
-          return '<a href="#/blog?category=' + r.slug + '"><i class="fas ' + r.icon + '"></i>' + esc(r.name) + '</a>';
+          return '<a href="' + blogUrl(r.slug) + '"><i class="fas ' + r.icon + '"></i>' + esc(r.name) + '</a>';
         }).join('')
       + '</div></div>';
 
@@ -750,7 +749,7 @@ async function loadHome() {
         + '<h3 class="sidebar-widget-title"><i class="fas fa-video"></i> Émissions récentes</h3>'
         + '<div class="sidebar-live-list">'
         + lives.map(function(l) {
-            return '<a href="#/lives" class="sidebar-live-item">'
+            return '<a href="/lives" class="sidebar-live-item">'
               + '<div class="sidebar-live-thumb"><img src="' + esc(safeUrl(l.image, './images/placeholder.svg')) + '" alt="" loading="lazy">'
               + (l.is_live ? '<span class="sidebar-live-indicator"></span>' : '')
               + '</div>'
@@ -768,7 +767,7 @@ async function loadHome() {
         + '<h3 class="sidebar-widget-title"><i class="fas fa-podcast"></i> Podcasts</h3>'
         + '<div class="sidebar-podcast-list">'
         + podcasts.map(function(p) {
-            return '<a href="#/podcasts" class="sidebar-podcast-item">'
+            return '<a href="/podcasts" class="sidebar-podcast-item">'
               + '<img src="' + esc(safeUrl(p.image, './images/placeholder.svg')) + '" alt="" loading="lazy">'
               + '<div class="sidebar-podcast-info">'
               + '<h4>' + esc(p.title) + '</h4>'
@@ -786,7 +785,7 @@ async function loadHome() {
       + '<p>Restez connecté pour ne rien manquer</p>'
       + '<div class="cta-links">'
       + socialLinks('btn btn-outline', true)
-      + '<a href="#/a-propos" class="btn btn-primary"><i class="fas fa-envelope"></i> Nous contacter</a>'
+      + '<a href="/a-propos" class="btn btn-primary"><i class="fas fa-envelope"></i> Nous contacter</a>'
       + '</div></div></div></section>';
 
     document.getElementById('page-home').innerHTML = html;
@@ -800,7 +799,7 @@ async function loadHome() {
 
 /* Home trio card: light card with the image below, or the highlighted (accent) variant */
 function heroTrioCard(a, accent) {
-  var url = '#/article/' + encodeURIComponent(a.slug || '');
+  var url = '/article/' + encodeURIComponent(a.slug || '');
   var img = '<div class="hx-card-img"><img src="' + escAttr(safeUrl(a.image, './images/placeholder.svg')) + '" alt="" loading="lazy"></div>';
   var head = '<div class="hx-card-head"><span class="hx-pill">' + esc(a.category_name || 'Actualité') + '</span>'
     + '<span class="hx-arrow-btn" aria-hidden="true"><i class="fas fa-arrow-right hx-arrow-ne"></i></span></div>';
@@ -816,7 +815,7 @@ function renderCategoryMix(articles, categorySlug) {
   var rest = articles.slice(1);
   var html = '<div class="cat-mix">'
     + '<div class="cat-mix-featured">'
-    + '<a href="#/article/' + encodeURIComponent(main.slug || '') + '" class="cat-mix-card">'
+    + '<a href="/article/' + encodeURIComponent(main.slug || '') + '" class="cat-mix-card">'
     + '<div class="cat-mix-img"><img src="' + esc(main.image || './images/placeholder.svg') + '" alt="' + esc(main.title) + '" loading="lazy"></div>'
     + '<div class="cat-mix-body">'
     + '<h3>' + esc(main.title) + '</h3>'
@@ -825,7 +824,7 @@ function renderCategoryMix(articles, categorySlug) {
     + '</div></a></div>'
     + '<div class="cat-mix-list">'
     + rest.map(function(a) {
-        return '<a href="#/article/' + encodeURIComponent(a.slug || '') + '" class="cat-mix-item">'
+        return '<a href="/article/' + encodeURIComponent(a.slug || '') + '" class="cat-mix-item">'
           + '<div class="cat-mix-item-img"><img src="' + esc(a.image || './images/placeholder.svg') + '" alt="' + esc(a.title) + '" loading="lazy"></div>'
           + '<div class="cat-mix-item-body">'
           + '<h4>' + esc(a.title) + '</h4>'
@@ -847,7 +846,7 @@ function renderHeroCarousel(articles) {
       + (a.category_name ? '<span class="article-card-category">' + esc(a.category_name) + '</span>' : '')
       + '<h2>' + esc(a.title) + '</h2>'
       + '<p>' + esc(a.excerpt || (a.content || '').substring(0, 180)) + '</p>'
-      + '<a href="#/article/' + encodeURIComponent(a.slug || '') + '" class="btn btn-primary"><i class="fas fa-book-open" style="margin-right:6px"></i>Lire la suite</a>'
+      + '<a href="/article/' + encodeURIComponent(a.slug || '') + '" class="btn btn-primary"><i class="fas fa-book-open" style="margin-right:6px"></i>Lire la suite</a>'
       + '</div></div></div>';
   });
   if (articles.length > 1) {
@@ -1074,7 +1073,7 @@ async function loadBlog() {
     if (!articles.length) {
       container.innerHTML = '<div class="empty-state"><i class="fas fa-newspaper"></i>'
         + '<p>' + (catFilter ? 'Aucun article dans cette rubrique pour le moment.' : 'Aucun article pour le moment.') + '</p>'
-        + (catFilter ? '<a href="#/blog" class="btn btn-outline">Voir toutes les actualités</a>' : '') + '</div>';
+        + (catFilter ? '<a href="/actualites" class="btn btn-outline">Voir toutes les actualités</a>' : '') + '</div>';
     } else {
       container.innerHTML = '<div class="article-grid fade-in">' + articles.map(function(a) { return ArticleCard(a); }).join('') + '</div>'
         + Pagination(page, total, 12);
@@ -1086,7 +1085,7 @@ async function loadBlog() {
       if (recentsContainer && recentsList) {
         recentsContainer.style.display = '';
         recentsList.innerHTML = articles.slice(0, 5).map(function(a) {
-          return '<a href="#/article/' + encodeURIComponent(a.slug || '') + '" class="sidebar-link"><i class="fas fa-file-lines" style="margin-right:8px;color:var(--text-muted);font-size:0.8rem"></i>' + esc(a.title) + '</a>';
+          return '<a href="/article/' + encodeURIComponent(a.slug || '') + '" class="sidebar-link"><i class="fas fa-file-lines" style="margin-right:8px;color:var(--text-muted);font-size:0.8rem"></i>' + esc(a.title) + '</a>';
         }).join('');
       }
     }
@@ -1107,7 +1106,7 @@ async function loadArticle() {
     return;
   }
   if (!slug) {
-    container.innerHTML = '<div style="text-align:center;padding:60px"><h2>Article introuvable</h2><a href="#/blog" class="btn btn-primary" style="margin-top:20px">Retour au blog</a></div>';
+    container.innerHTML = '<div style="text-align:center;padding:60px"><h2>Article introuvable</h2><a href="/actualites" class="btn btn-primary" style="margin-top:20px">Retour au blog</a></div>';
     return;
   }
 
@@ -1129,8 +1128,11 @@ async function loadArticle() {
     var rt = readingTime(article.content);
 
     var html = '<div class="article-page">'
+      + '<nav class="breadcrumb" aria-label="Fil d’Ariane"><a href="/">Accueil</a>'
+      + (article.category_slug ? '<span aria-hidden="true">›</span><a href="' + blogUrl(article.category_slug) + '">' + esc(article.category_name || article.category_slug) + '</a>' : '')
+      + '<span aria-hidden="true">›</span><span aria-current="page">' + esc(article.title) + '</span></nav>'
       + '<div class="article-header fade-in">'
-      + (article.category_name ? '<a href="#/blog?category=' + encodeURIComponent(article.category_slug) + '" class="article-card-category">' + esc(article.category_name) + '</a>' : '')
+      + (article.category_name ? '<a href="' + blogUrl(article.category_slug) + '" class="article-card-category">' + esc(article.category_name) + '</a>' : '')
       + '<h1>' + esc(article.title) + '</h1>'
       + '<div class="article-meta">'
       + '<span><i class="fas fa-user-pen" style="margin-right:6px"></i>' + esc(article.author) + '</span><span> - </span>'
@@ -1140,12 +1142,12 @@ async function loadArticle() {
       + (article.image ? '<img src="' + esc(article.image) + '" alt="' + esc(article.title) + '" class="article-featured-image fade-in">' : '')
       + '<div class="article-content fade-in">' + (article.content || '').split('\n').map(function(p) { return '<p>' + esc(p) + '</p>'; }).join('') + '</div>'
       + ShareButtons(article.title)
-      + '<div style="text-align:center;margin:40px 0"><a href="#/blog" class="btn btn-outline"><i class="fas fa-arrow-left" style="margin-right:6px"></i>Retour au blog</a></div>';
+      + '<div style="text-align:center;margin:40px 0"><a href="/actualites" class="btn btn-outline"><i class="fas fa-arrow-left" style="margin-right:6px"></i>Retour au blog</a></div>';
 
     if (related.length > 0) {
       html += '<div class="related-articles"><h3><i class="fas fa-link" style="margin-right:8px;color:var(--primary)"></i> Articles similaires</h3>'
         + '<div class="article-grid">' + related.map(function(a) {
-          return '<a href="#/article/' + encodeURIComponent(a.slug || '') + '" class="article-card">'
+          return '<a href="/article/' + encodeURIComponent(a.slug || '') + '" class="article-card">'
             + '<img src="' + esc(a.image || './images/placeholder.svg') + '" alt="' + esc(a.title) + '" class="article-card-image" loading="lazy">'
             + '<div class="article-card-body"><h3 class="article-card-title">' + esc(a.title) + '</h3>'
             + '<div class="article-card-footer"><span>' + esc(a.author) + '</span><span>' + formatDateShort(a.created_at) + '</span></div></div></a>';
@@ -1160,7 +1162,7 @@ async function loadArticle() {
     container.innerHTML = '<div style="text-align:center;padding:60px">'
       + '<i class="fas fa-file-circle-exclamation" style="font-size:3rem;margin-bottom:15px;color:var(--text-muted);opacity:0.3"></i>'
       + '<h2>Article non trouvé</h2>'
-      + '<a href="#/blog" class="btn btn-primary" style="margin-top:20px"><i class="fas fa-arrow-left" style="margin-right:6px"></i>Retour au blog</a></div>';
+      + '<a href="/actualites" class="btn btn-primary" style="margin-top:20px"><i class="fas fa-arrow-left" style="margin-right:6px"></i>Retour au blog</a></div>';
   }
 }
 
@@ -1263,21 +1265,8 @@ function bindAdminLoginEvents() {
 
 /* ============ ADMIN ============ */
 function bindAdminEvents() {
-  document.querySelectorAll('.admin-nav-btn').forEach(function(btn) {
-    btn.onclick = function() {
-      state.adminSection = btn.dataset.section;
-      document.querySelectorAll('.admin-nav-btn').forEach(function(b) {
-        var isActive = b.dataset.section === state.adminSection;
-        b.classList.toggle('active', isActive);
-        b.style.background = isActive ? 'rgba(230,57,70,0.15)' : 'transparent';
-        b.style.color = isActive ? 'var(--primary)' : 'var(--text-secondary)';
-        b.style.fontWeight = isActive ? '600' : '400';
-      });
-      var titleEl = document.getElementById('admin-section-title');
-      var span = btn.querySelector('span');
-      if (titleEl && span) titleEl.textContent = span.textContent;
-      loadAdminSection();
-    };
+  document.querySelectorAll('.admin-nav-btn, [data-goto]').forEach(function(btn) {
+    btn.onclick = function() { showAdminSection(btn.dataset.section || btn.dataset.goto); };
   });
 
   var logoutBtn = document.getElementById('admin-logout');
@@ -1289,6 +1278,20 @@ function bindAdminEvents() {
       navigate('/admin/login');
     };
   }
+  loadAdminSection();
+}
+
+function showAdminSection(section) {
+  state.adminSection = section;
+  document.querySelectorAll('.admin-nav-btn').forEach(function(b) {
+    var isActive = b.dataset.section === section;
+    b.classList.toggle('active', isActive);
+    if (isActive) b.setAttribute('aria-current', 'page'); else b.removeAttribute('aria-current');
+  });
+  var item = ADMIN_NAV.find(function(n) { return n.id === section; });
+  var titleEl = document.getElementById('admin-section-title');
+  if (titleEl && item) titleEl.textContent = item.label;
+  if (item) setPageMeta('Administration — ' + item.label);
   loadAdminSection();
 }
 
@@ -1332,67 +1335,180 @@ async function loadAdminSection() {
 async function renderAdminDashboard(container) {
   container.innerHTML = '<div class="loading"><i class="fas fa-circle-notch fa-spin" style="font-size:2rem;color:var(--primary)"></i></div>';
   try {
-    var results = await Promise.all([API.get('/stats'), API.get('/articles?limit=5')]);
-    var stats = results[0].data || results[0];
-    var recentArticles = getData(results[1]);
+    var results = await Promise.all([
+      API.get('/stats'),
+      API.get('/articles?limit=5&sort=views'),
+      API.get('/articles?limit=50&all=1'),
+      API.get('/lives?per_page=50'),
+    ]);
+    var stats = (results[0] && results[0].data) || results[0] || {};
+    var top = getData(results[1]);
+    var allArticles = getData(results[2]);
+    var lives = getData(results[3]);
+    var drafts = allArticles.filter(function(a) { return Number(a.published) === 0; }).length;
+    var total = Number(stats.articles) || allArticles.length;
+    var messages = Number(stats.messages) || 0;
+    var name = (state.user && (state.user.name || state.user.username)) || '';
 
-    var cards = [
-      { label: 'Articles', value: stats.articles || 0, color: '#f6a122', icon: 'fa-newspaper' },
-      { label: 'Podcasts', value: stats.podcasts || 0, color: '#457b9d', icon: 'fa-podcast' },
-      { label: 'Emissions', value: stats.lives || 0, color: '#2a9d8f', icon: 'fa-video' },
-      { label: 'Mediatheque', value: stats.gallery || 0, color: '#e9c46a', icon: 'fa-images' },
-      { label: 'Messages', value: stats.messages || 0, color: '#8b5cf6', icon: 'fa-envelope' },
-      { label: 'Abonnes', value: stats.subscribers || 0, color: '#06b6d4', icon: 'fa-envelope-open-text' },
-    ];
+    var badge = document.getElementById('adm-msg-badge');
+    if (badge) { badge.hidden = !messages; badge.textContent = messages > 99 ? '99+' : String(messages); }
 
-    var html = '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px;margin-bottom:30px">'
-      + cards.map(function(c) {
-        return '<div style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:20px">'
-          + '<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px">'
-          + '<i class="fas ' + c.icon + '" style="font-size:1.5rem;color:' + c.color + '"></i>'
-          + '<span style="font-size:1.8rem;font-weight:800;color:' + c.color + '">' + c.value + '</span></div>'
-          + '<div style="font-size:0.9rem;color:var(--text-secondary)">' + c.label + '</div>'
-          + '<div style="margin-top:12px;height:3px;border-radius:2px;background:var(--border);overflow:hidden">'
-          + '<div style="width:' + Math.min(100, c.value * 10) + '%;height:100%;background:' + c.color + ';border-radius:2px"></div></div></div>';
-      }).join('')
-      + '</div>';
+    var html = '<div class="adm-dash">'
+      + '<div class="adm-dash-main">'
 
-    if (stats.commentsPending > 0) {
-      html += '<div style="background:rgba(230,57,70,0.1);border:1px solid rgba(230,57,70,0.3);border-radius:var(--radius);padding:12px 20px;margin-bottom:20px;display:flex;align-items:center;gap:12px">'
-        + '<i class="fas fa-comment-dots" style="color:var(--primary);font-size:1.2rem"></i>'
-        + '<span style="font-size:0.9rem"><strong>' + stats.commentsPending + '</strong> commentaire(s) en attente de moderation</span></div>';
-    }
-
-    html += '<div style="display:grid;grid-template-columns:2fr 1fr;gap:20px">'
-      + '<div style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:20px">'
-      + '<h3 style="font-size:1rem;font-weight:700;margin-bottom:15px"><i class="fas fa-clock" style="margin-right:8px;color:var(--accent)"></i>Derniers articles</h3>'
-      + (recentArticles.length === 0
-        ? '<p style="color:var(--text-muted);font-size:0.9rem">Aucun article publiÃ©</p>'
-        : recentArticles.map(function(a, i) {
-          return '<div style="display:flex;align-items:center;gap:12px;padding:10px 0;' + (i < recentArticles.length - 1 ? 'border-bottom:1px solid var(--border)' : '') + '">'
-            + '<div style="width:40px;height:40px;border-radius:var(--radius-sm);background:var(--bg-elevated);overflow:hidden;flex-shrink:0">'
-            + (a.image ? '<img src="' + escAttr(safeUrl(a.image)) + '" alt="" style="width:100%;height:100%;object-fit:cover">' : '') + '</div>'
-            + '<div style="flex:1;min-width:0"><div style="font-size:0.9rem;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + esc(a.title) + '</div>'
-            + '<div style="font-size:0.75rem;color:var(--text-muted)"><i class="fas fa-calendar-alt" style="margin-right:4px"></i>' + formatDateShort(a.created_at) + '</div></div></div>';
-        }).join(''))
+      /* Welcome banner */
+      + '<section class="adm-hello">'
+      + '<div class="adm-hello-text">'
+      + '<h2>Bonjour ' + esc(name) + ' !</h2>'
+      + '<p>' + plural(total, 'article', 'articles') + ' sur le site'
+      + (drafts ? ', dont ' + plural(drafts, 'brouillon', 'brouillons') : '')
+      + ', et ' + plural(messages, 'message reçu', 'messages reçus') + '. Le business en temps réel commence ici.</p>'
+      + '<button type="button" class="adm-btn-dark" data-goto="articles"><i class="fas fa-pen"></i> Rédiger un article</button>'
       + '</div>'
-      + '<div style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:20px">'
-      + '<h3 style="font-size:1rem;font-weight:700;margin-bottom:15px"><i class="fas fa-chart-pie" style="margin-right:8px;color:var(--accent)"></i>Articles par catégorie</h3>'
-      + (stats.articlesByCategory?.length
-        ? '<div style="display:flex;flex-direction:column;gap:8px">'
-          + stats.articlesByCategory.map(function(cat) {
-            var max = Math.max.apply(Math, stats.articlesByCategory.map(function(c) { return c.count; }));
-            return '<div><div style="display:flex;justify-content:space-between;font-size:0.85rem;margin-bottom:4px"><span>' + esc(cat.name) + '</span><span style="color:var(--text-muted)">' + cat.count + '</span></div>'
-              + '<div style="height:4px;border-radius:2px;background:var(--border);overflow:hidden"><div style="width:' + Math.min(100, (cat.count / max) * 100) + '%;height:100%;background:var(--gradient-1);border-radius:2px"></div></div></div>';
-          }).join('')
-          + '</div>'
-        : '<p style="color:var(--text-muted);font-size:0.9rem">Aucune donnee</p>')
+      + '<div class="adm-hello-art" aria-hidden="true">'
+      + '<span class="adm-art-screen"><img src="./logo-jaune.svg" alt=""></span>'
+      + '<span class="adm-art-chip adm-art-chip-1"><i class="fas fa-newspaper"></i></span>'
+      + '<span class="adm-art-chip adm-art-chip-2"><i class="fas fa-video"></i></span>'
+      + '<span class="adm-art-chip adm-art-chip-3"><i class="fas fa-microphone"></i></span>'
+      + '</div></section>'
+
+      /* Top articles */
+      + '<section class="adm-card">'
+      + '<div class="adm-card-head"><h3>Top articles</h3><span class="adm-chip"><i class="fas fa-eye"></i> Par vues</span></div>'
+      + (top.length
+        ? '<div class="adm-top-list">' + top.map(function(a, i) {
+            return '<a href="/article/' + encodeURIComponent(a.slug || '') + '" target="_blank" rel="noopener noreferrer" class="adm-top-row">'
+              + '<span class="adm-rank">0' + (i + 1) + '</span>'
+              + '<img src="' + escAttr(safeUrl(a.image, './images/placeholder.svg')) + '" alt="" loading="lazy">'
+              + '<span class="adm-top-info"><strong>' + esc(a.title) + '</strong>'
+              + '<small>' + formatDate(a.created_at) + (a.category_name ? ' · ' + esc(a.category_name) : '') + '</small></span>'
+              + '<span class="adm-top-metrics">'
+              + '<span title="Vues"><i class="fas fa-eye"></i> ' + compactNumber(a.views) + '</span>'
+              + '<span title="Temps de lecture"><i class="fas fa-clock"></i> ' + readingTime(a.content) + ' min</span>'
+              + '</span></a>';
+          }).join('') + '</div>'
+        : '<p class="adm-empty">Aucun article publié pour le moment.</p>')
+      + '</section>'
+      + '</div>'
+
+      + '<div class="adm-dash-side">'
+      /* Colored stat cards */
+      + adminStat('adm-stat-orange', 'fa-newspaper', total - drafts, 'Articles publiés', 'articles')
+      + adminStat('adm-stat-blue', 'fa-envelope', messages, 'Messages reçus', 'messages')
+      + adminStat('adm-stat-teal', 'fa-paper-plane', Number(stats.subscribers) || 0, 'Abonnés newsletter', '')
+      /* Small counters */
+      + '<div class="adm-mini">'
+      + [['lives', 'fa-video', stats.lives, 'Lives'], ['podcasts', 'fa-podcast', stats.podcasts, 'Podcasts'],
+         ['gallery', 'fa-images', stats.gallery, 'Photos'], ['', 'fa-comments', stats.comments, 'Commentaires']].map(function(m) {
+          var inner = '<i class="fas ' + m[1] + '"></i><strong>' + (Number(m[2]) || 0) + '</strong><small>' + m[3] + '</small>';
+          return m[0] ? '<button type="button" data-goto="' + m[0] + '">' + inner + '</button>' : '<div>' + inner + '</div>';
+        }).join('')
+      + '</div>'
+      /* Publication calendar */
+      + '<section class="adm-card adm-cal">'
+      + '<div class="adm-card-head"><h3>Calendrier</h3><span class="adm-chip" id="adm-cal-month"></span></div>'
+      + '<div class="adm-cal-week">'
+      + '<button type="button" class="adm-cal-nav" data-cal="-7" aria-label="Semaine précédente"><i class="fas fa-chevron-left"></i></button>'
+      + '<div class="adm-cal-days" id="adm-cal-days"></div>'
+      + '<button type="button" class="adm-cal-nav" data-cal="7" aria-label="Semaine suivante"><i class="fas fa-chevron-right"></i></button>'
+      + '</div>'
+      + '<div class="adm-cal-list" id="adm-cal-list"></div>'
+      + '</section>'
       + '</div></div>';
 
     container.innerHTML = html;
+    container.querySelectorAll('[data-goto]').forEach(function(btn) {
+      btn.onclick = function() { showAdminSection(btn.dataset.goto); };
+    });
+    initAdminCalendar(allArticles, lives);
   } catch(e) {
-    container.innerHTML = '<p style="color:var(--text-muted)">Erreur de chargement</p>';
+    container.innerHTML = '<p class="adm-empty">Erreur de chargement du tableau de bord.</p>';
   }
+}
+
+function plural(n, one, many) {
+  n = Number(n) || 0;
+  return n + ' ' + (n > 1 ? many : one);
+}
+
+function compactNumber(n) {
+  n = Number(n) || 0;
+  if (n >= 1000000) return (n / 1000000).toFixed(1).replace('.0', '') + 'M';
+  if (n >= 1000) return (n / 1000).toFixed(1).replace('.0', '') + 'K';
+  return String(n);
+}
+
+function adminStat(cls, icon, value, label, section) {
+  var inner = '<span class="adm-stat-icon"><i class="fas ' + icon + '"></i></span>'
+    + '<span class="adm-stat-text"><strong>' + (Number(value) || 0) + '</strong><small>' + label + '</small></span>';
+  return section
+    ? '<button type="button" class="adm-stat ' + cls + '" data-goto="' + section + '">' + inner + '</button>'
+    : '<div class="adm-stat ' + cls + '">' + inner + '</div>';
+}
+
+/* Week calendar of publications (articles by date, lives by scheduled date) */
+function initAdminCalendar(articles, lives) {
+  var daysEl = document.getElementById('adm-cal-days');
+  var listEl = document.getElementById('adm-cal-list');
+  var monthEl = document.getElementById('adm-cal-month');
+  if (!daysEl || !listEl) return;
+
+  function parse(s) {
+    if (!s) return null;
+    var d = new Date(String(s).replace(' ', 'T'));
+    return isNaN(d) ? null : d;
+  }
+  function key(d) { return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate(); }
+
+  var events = articles.map(function(a) {
+    return { date: parse(a.created_at), title: a.title, type: Number(a.published) === 0 ? 'Brouillon' : 'Article' };
+  }).concat(lives.filter(function(l) { return l.scheduled_for; }).map(function(l) {
+    return { date: parse(l.scheduled_for), title: l.title, type: 'Live programmé' };
+  })).filter(function(e) { return e.date; });
+
+  var byDay = {};
+  events.forEach(function(e) { (byDay[key(e.date)] = byDay[key(e.date)] || []).push(e); });
+
+  // Start on today if something is planned, otherwise on the last publication
+  var today = new Date();
+  var selected = new Date(today);
+  if (!byDay[key(today)]) {
+    var past = events.filter(function(e) { return e.date <= today; }).sort(function(a, b) { return b.date - a.date; });
+    if (past.length) selected = new Date(past[0].date);
+  }
+
+  var initials = ['L', 'M', 'M', 'J', 'V', 'S', 'D'];
+  function render() {
+    var monday = new Date(selected);
+    monday.setDate(selected.getDate() - ((selected.getDay() + 6) % 7));
+    monthEl.textContent = selected.toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' });
+    var days = '';
+    for (var i = 0; i < 7; i++) {
+      var d = new Date(monday);
+      d.setDate(monday.getDate() + i);
+      var cls = 'adm-cal-day' + (key(d) === key(selected) ? ' is-selected' : '') + (key(d) === key(today) ? ' is-today' : '') + (byDay[key(d)] ? ' has-events' : '');
+      days += '<button type="button" class="' + cls + '" data-day="' + d.toISOString() + '" aria-pressed="' + (key(d) === key(selected)) + '">'
+        + '<small>' + initials[i] + '</small><strong>' + d.getDate() + '</strong></button>';
+    }
+    daysEl.innerHTML = days;
+    daysEl.querySelectorAll('.adm-cal-day').forEach(function(b) {
+      b.onclick = function() { selected = new Date(b.dataset.day); render(); };
+    });
+
+    var items = (byDay[key(selected)] || []).slice().sort(function(a, b) { return a.date - b.date; });
+    listEl.innerHTML = '<p class="adm-cal-date">' + selected.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' }) + '</p>'
+      + (items.length
+        ? items.map(function(e) {
+            return '<div class="adm-cal-item"><time>' + e.date.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' }) + '</time>'
+              + '<div><strong>' + esc(e.title) + '</strong><small>' + e.type + '</small></div></div>';
+          }).join('')
+        : '<p class="adm-empty">Aucune publication ce jour.</p>');
+  }
+
+  document.querySelectorAll('.adm-cal-nav').forEach(function(b) {
+    b.onclick = function() { selected.setDate(selected.getDate() + Number(b.dataset.cal)); render(); };
+  });
+  render();
 }
 
 /* ============ ADMIN ARTICLES ============ */
@@ -1535,7 +1651,7 @@ function bindAdminArticles(container, articles, categories) {
 
   form.onsubmit = async function(e) {
     e.preventDefault();
-    var slug = document.getElementById('art-slug').value || document.getElementById('art-title').value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+    var slug = slugify(document.getElementById('art-slug').value || document.getElementById('art-title').value);
     var payload = {
       title: document.getElementById('art-title').value,
       slug: slug,
