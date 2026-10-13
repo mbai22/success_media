@@ -136,4 +136,4 @@ Le site ne contient pas d'images de banque. Les photos des articles, lives, podc
 
 ## Crédits
 
-Conception : MBAIHORNOM Wilfried — Success Media TV, entité du groupe ND Media-w4b.
+Conception : elit'com Group — Success Media TV, entité du groupe ND Media-w4b.

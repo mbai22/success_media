@@ -180,5 +180,7 @@ function renderAdmin() {
     + '<div class="adm-user"><span>' + esc(name) + '</span><span class="adm-avatar" aria-hidden="true">' + esc(name.charAt(0).toUpperCase()) + '</span></div>'
     + '</div></header>'
     + '<div class="adm-panel" id="admin-content"><div class="loading"><i class="fas fa-circle-notch fa-spin" style="font-size:2rem;color:var(--primary)"></i></div></div>'
-    + '</div></div></div>';
+    + '</div></div>'
+    + '<div id="toast-container" role="status" aria-live="polite" style="position:fixed;bottom:24px;right:24px;z-index:9999;display:flex;flex-direction:column;gap:8px;max-width:380px"></div>'
+    + '</div>';
 }

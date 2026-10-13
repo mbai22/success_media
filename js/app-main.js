@@ -68,7 +68,7 @@ function render() {
     + '</div></div>'
     + '<div class="footer-bottom"><span>&copy; ' + new Date().getFullYear() + ' Success Media TV. Tous droits réservés.</span>'
     + '<span>Le business en temps réel</span>'
-    + '<span>conception MBAIHORNOM Willifred</span></div></div></footer>'
+    + '<span>Conception elit\'com Group</span></div></div></footer>'
     + '<div id="search-modal-container"></div>'
     + '<div id="video-modal-container"></div>'
     + '<div id="lightbox-container"></div>'
@@ -1292,6 +1292,8 @@ function showAdminSection(section) {
   var titleEl = document.getElementById('admin-section-title');
   if (titleEl && item) titleEl.textContent = item.label;
   if (item) setPageMeta('Administration — ' + item.label);
+  var panel = document.getElementById('admin-content');
+  if (panel) panel.scrollTop = 0;
   loadAdminSection();
 }
 
@@ -1309,7 +1311,7 @@ async function loadAdminSection() {
       { key: 'audio_url', label: 'URL Audio', type: 'text' },
       { key: 'video_url', label: 'URL Video', type: 'text' },
     ]); break;
-    case 'lives': renderAdminManager(container, 'lives', 'Emission', [
+    case 'lives': renderAdminManager(container, 'lives', 'Live', [
       { key: 'title', label: 'Titre', type: 'text', required: true },
       { key: 'description', label: 'Description', type: 'textarea' },
       { key: 'image', label: 'URL Image', type: 'image' },
@@ -1542,7 +1544,7 @@ function buildAdminArticlesHTML(articles, categories) {
     + '<div class="form-group"><label><i class="fas fa-paragraph" style="margin-right:6px"></i>Resume</label><textarea id="art-excerpt" rows="3"></textarea></div>'
     + '<div class="form-group"><label><i class="fas fa-file-lines" style="margin-right:6px"></i>Contenu *</label><textarea id="art-content" rows="10" style="font-family:monospace"></textarea></div></div>'
     + '<div>'
-    + '<div class="form-group"><label><i class="fas fa-image" style="margin-right:6px"></i>Image (URL)</label><input id="art-image" placeholder="https://..."><img id="art-image-preview" style="display:none;width:100%;margin-top:8px;border-radius:var(--radius-sm);max-height:120px;object-fit:cover"></div>'
+    + '<div class="form-group"><label><i class="fas fa-image" style="margin-right:6px"></i>Image de l\'article</label>' + imagePickerHTML('art-image', '') + '</div>'
     + '<div class="form-group"><label><i class="fas fa-tag" style="margin-right:6px"></i>Catégorie</label><select id="art-category"><option value="">-- Sans catégorie --</option>'
     + categories.map(function(c) { return '<option value="' + esc(c.slug) + '">' + esc(c.name) + '</option>'; }).join('') + '</select></div>'
     + '<div class="form-group"><label><i class="fas fa-user-pen" style="margin-right:6px"></i>Auteur</label><input id="art-author" value="Success Media TV"></div>'
@@ -1603,8 +1605,7 @@ function bindAdminArticles(container, articles, categories) {
     if (feat) feat.checked = false;
     var pub = document.getElementById('art-published');
     if (pub) pub.checked = true;
-    var prev = document.getElementById('art-image-preview');
-    if (prev) prev.style.display = 'none';
+    setImagePickerValue('art-image', '');
   }
 
   document.getElementById('admin-article-toggle-form').onclick = function() {
@@ -1621,11 +1622,7 @@ function bindAdminArticles(container, articles, categories) {
 
   document.getElementById('art-cancel-btn').onclick = function() { formContainer.style.display = 'none'; resetArticleForm(); };
 
-  document.getElementById('art-image').oninput = function() {
-    var prev = document.getElementById('art-image-preview');
-    if (this.value) { prev.src = this.value; prev.style.display = ''; }
-    else prev.style.display = 'none';
-  };
+  initImagePickers(formContainer);
 
   document.querySelectorAll('.admin-edit-btn').forEach(function(btn) {
     btn.onclick = function() {
@@ -1635,14 +1632,12 @@ function bindAdminArticles(container, articles, categories) {
       document.getElementById('art-slug').value = editing.slug || '';
       document.getElementById('art-excerpt').value = editing.excerpt || '';
       document.getElementById('art-content').value = editing.content || '';
-      document.getElementById('art-image').value = editing.image || '';
+      setImagePickerValue('art-image', editing.image || '');
       document.getElementById('art-category').value = editing.category_slug || '';
       document.getElementById('art-author').value = editing.author || 'Success Media TV';
       document.getElementById('art-scheduled').value = editing.scheduled_for ? editing.scheduled_for.slice(0, 16) : '';
       document.getElementById('art-featured').checked = !!editing.featured;
       document.getElementById('art-published').checked = editing.published !== 0;
-      var prev = document.getElementById('art-image-preview');
-      if (editing.image) { prev.src = editing.image; prev.style.display = ''; }
       formContainer.style.display = '';
       document.getElementById('admin-article-form-title').innerHTML = '<i class="fas fa-pen" style="margin-right:8px"></i>Modifier article';
       document.getElementById('art-submit-btn').innerHTML = '<i class="fas fa-floppy-disk" style="margin-right:6px"></i>Mettre a jour';
@@ -1651,6 +1646,7 @@ function bindAdminArticles(container, articles, categories) {
 
   form.onsubmit = async function(e) {
     e.preventDefault();
+    if (imagePickerBusy()) return showToast('Patientez, l\'image est en cours d\'envoi…', 'warning');
     var slug = slugify(document.getElementById('art-slug').value || document.getElementById('art-title').value);
     var payload = {
       title: document.getElementById('art-title').value,
@@ -1759,7 +1755,7 @@ function bindAdminManager(container, endpoint, title, fields, items) {
       html += '<div class="form-group"><label>' + f.label + '</label>';
       if (f.type === 'textarea') html += '<textarea id="mgr-' + f.key + '" rows="3"' + (f.required ? ' required' : '') + '>' + esc(val) + '</textarea>';
       else if (f.type === 'datetime') html += '<input type="datetime-local" id="mgr-' + f.key + '" value="' + (val ? val.slice(0, 16) : '') + '">';
-      else if (f.type === 'image') html += '<input id="mgr-' + f.key + '" value="' + esc(val) + '" placeholder="https://..."' + (f.required ? ' required' : '') + '><img id="mgr-' + f.key + '-preview" style="display:' + (val ? '' : 'none') + ';width:100%;margin-top:8px;border-radius:var(--radius-sm);max-height:100px;object-fit:cover" src="' + esc(val) + '">';
+      else if (f.type === 'image') html += imagePickerHTML('mgr-' + f.key, val, f.required);
       else html += '<input id="mgr-' + f.key + '" value="' + esc(val) + '"' + (f.required ? ' required' : '') + '>';
       html += '</div>';
     });
@@ -1778,13 +1774,7 @@ function bindAdminManager(container, endpoint, title, fields, items) {
     var cancelBtn = document.getElementById('mgr-cancel');
     if (cancelBtn) cancelBtn.onclick = function() { formContainer.style.display = 'none'; };
 
-    fields.filter(function(f) { return f.type === 'image'; }).forEach(function(f) {
-      var input = document.getElementById('mgr-' + f.key);
-      if (input) input.oninput = function() {
-        var preview = document.getElementById('mgr-' + f.key + '-preview');
-        if (preview) { preview.src = this.value; preview.style.display = this.value ? '' : 'none'; }
-      };
-    });
+    initImagePickers(form);
   }
 
   document.getElementById('admin-manager-toggle').onclick = function() {
@@ -1798,14 +1788,16 @@ function bindAdminManager(container, endpoint, title, fields, items) {
 
   form.onsubmit = async function(e) {
     e.preventDefault();
+    if (imagePickerBusy()) return showToast('Patientez, l\'image est en cours d\'envoi…', 'warning');
+    if (missingRequiredImage(form)) return showToast('Ajoutez une image avant d\'enregistrer.', 'warning');
     var payload = {};
     fields.forEach(function(f) {
       var el = document.getElementById('mgr-' + f.key);
       if (el) payload[f.key] = f.type === 'checkbox' ? el.checked : el.value;
     });
     try {
-      if (editing) { await API.put('/' + endpoint + '/' + editing.id, payload); showToast(title + ' mis a jour'); }
-      else { await API.post('/' + endpoint, payload); showToast(title + ' ajoute'); }
+      if (editing) { await API.put('/' + endpoint + '/' + editing.id, payload); showToast(title + ' mis' + (title === 'Image' ? 'e' : '') + ' à jour'); }
+      else { await API.post('/' + endpoint, payload); showToast(title + ' ajouté' + (title === 'Image' ? 'e' : '')); }
       formContainer.style.display = 'none';
       renderAdminManager(container, endpoint, title, fields);
     } catch(err) { showToast(err.error || 'Erreur', 'error'); }
@@ -1823,7 +1815,7 @@ function bindAdminManager(container, endpoint, title, fields, items) {
   document.querySelectorAll('.admin-mgr-delete').forEach(function(btn) {
     btn.onclick = async function() {
       if (!confirm('Supprimer ?')) return;
-      try { await API.delete('/' + btn.dataset.endpoint + '/' + btn.dataset.id); showToast(title + ' supprime'); renderAdminManager(container, endpoint, title, fields); }
+      try { await API.delete('/' + btn.dataset.endpoint + '/' + btn.dataset.id); showToast(title + ' supprimé' + (title === 'Image' ? 'e' : '')); renderAdminManager(container, endpoint, title, fields); }
       catch(e) { showToast('Erreur', 'error'); }
     };
   });
@@ -1909,6 +1901,183 @@ function bindAdminCategories(container) {
       try { await API.delete('/categories/' + btn.dataset.id); showToast('Catégorie supprimée'); renderAdminCategories(container); }
       catch(err) { showToast('Erreur', 'error'); }
     };
+  });
+}
+
+/* ============ ADMIN IMAGE PICKER ============ */
+/* One image field, three ways to fill it: upload from the device, paste a link, or pick from the media library.
+   The chosen URL is kept in a hidden input with the given id, so forms read it with getElementById(id).value. */
+var IMAGE_UPLOAD_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
+var IMAGE_UPLOAD_MAX = 10 * 1024 * 1024;
+var IMAGE_MAX_WIDTH = 1600;
+
+function isLocalImage(url) {
+  return /^(\.\/|\/)?images\//.test(String(url || ''));
+}
+
+function imagePickerHTML(id, value, required) {
+  var mode = value && !isLocalImage(value) ? 'url' : 'upload';
+  function tab(m, icon, label) {
+    return '<button type="button" class="img-picker-tab' + (m === mode ? ' is-active' : '') + '" data-mode="' + m + '" aria-pressed="' + (m === mode) + '">'
+      + '<i class="fas ' + icon + '"></i> ' + label + '</button>';
+  }
+  return '<div class="img-picker" data-picker="' + id + '"' + (required ? ' data-required="1"' : '') + '>'
+    + '<div class="img-picker-tabs">'
+    + tab('upload', 'fa-upload', 'Depuis l\'appareil') + tab('url', 'fa-link', 'Par lien') + tab('library', 'fa-folder-open', 'Médiathèque')
+    + '</div>'
+    + '<div class="img-picker-pane" data-pane="upload"' + (mode === 'upload' ? '' : ' hidden') + '>'
+    + '<label class="img-picker-drop"><input type="file" accept="image/jpeg,image/png,image/webp,image/gif" hidden>'
+    + '<i class="fas fa-cloud-arrow-up"></i><strong>Cliquez ou glissez une image ici</strong>'
+    + '<small>JPG, PNG, WebP ou GIF — 10 Mo maximum. Les grandes photos sont optimisées automatiquement.</small></label>'
+    + '</div>'
+    + '<div class="img-picker-pane" data-pane="url"' + (mode === 'url' ? '' : ' hidden') + '>'
+    + '<input type="url" class="img-picker-url" placeholder="https://exemple.com/photo.jpg" value="' + escAttr(mode === 'url' ? value : '') + '">'
+    + '</div>'
+    + '<div class="img-picker-pane" data-pane="library" hidden><div class="img-picker-library"></div></div>'
+    + '<p class="img-picker-status" role="status"></p>'
+    + '<div class="img-picker-preview"' + (value ? '' : ' hidden') + '>'
+    + '<img src="' + escAttr(safeUrl(value, '')) + '" alt="Aperçu de l\'image">'
+    + '<button type="button" class="img-picker-remove" title="Retirer l\'image" aria-label="Retirer l\'image"><i class="fas fa-xmark"></i></button>'
+    + '</div>'
+    + '<input type="hidden" id="' + id + '" value="' + escAttr(value || '') + '">'
+    + '</div>';
+}
+
+function setImagePickerValue(id, url) {
+  var picker = document.querySelector('.img-picker[data-picker="' + id + '"]');
+  var hidden = document.getElementById(id);
+  if (!picker || !hidden) return;
+  url = url || '';
+  hidden.value = url;
+  var preview = picker.querySelector('.img-picker-preview');
+  preview.hidden = !url;
+  if (url) preview.querySelector('img').src = safeUrl(url, '');
+  var urlInput = picker.querySelector('.img-picker-url');
+  if (urlInput && document.activeElement !== urlInput) urlInput.value = url && !isLocalImage(url) ? url : '';
+}
+
+/* True while a picker is still uploading (forms wait before saving) */
+function imagePickerBusy() {
+  return !!document.querySelector('.img-picker.is-busy');
+}
+
+/* Required pickers that are still empty */
+function missingRequiredImage(root) {
+  return Array.prototype.some.call((root || document).querySelectorAll('.img-picker[data-required]'), function(p) {
+    return !document.getElementById(p.dataset.picker).value;
+  });
+}
+
+/* Large photos (phones…) are resized to 1600 px wide and saved as WebP before upload */
+function optimizeImage(file) {
+  if (file.type === 'image/gif' || !window.createImageBitmap) return Promise.resolve(file);
+  return createImageBitmap(file).then(function(bitmap) {
+    if (bitmap.width <= IMAGE_MAX_WIDTH && file.size <= 1.5 * 1024 * 1024) return file;
+    var scale = Math.min(1, IMAGE_MAX_WIDTH / bitmap.width);
+    var canvas = document.createElement('canvas');
+    canvas.width = Math.round(bitmap.width * scale);
+    canvas.height = Math.round(bitmap.height * scale);
+    canvas.getContext('2d').drawImage(bitmap, 0, 0, canvas.width, canvas.height);
+    return new Promise(function(resolve) {
+      canvas.toBlob(function(blob) {
+        if (!blob || blob.size >= file.size) return resolve(file);
+        resolve(new File([blob], file.name.replace(/\.[^.]+$/, '') + '.webp', { type: 'image/webp' }));
+      }, 'image/webp', 0.85);
+    });
+  }).catch(function() { return file; });
+}
+
+function initImagePickers(root) {
+  (root || document).querySelectorAll('.img-picker:not(.is-ready)').forEach(function(picker) {
+    picker.classList.add('is-ready');
+    var id = picker.dataset.picker;
+    var status = picker.querySelector('.img-picker-status');
+    var fileInput = picker.querySelector('input[type=file]');
+    var drop = picker.querySelector('.img-picker-drop');
+    var urlInput = picker.querySelector('.img-picker-url');
+    var library = picker.querySelector('.img-picker-library');
+
+    function say(text, isError) {
+      status.textContent = text || '';
+      status.classList.toggle('is-error', !!isError);
+    }
+
+    function showMode(mode) {
+      picker.querySelectorAll('.img-picker-tab').forEach(function(t) {
+        var active = t.dataset.mode === mode;
+        t.classList.toggle('is-active', active);
+        t.setAttribute('aria-pressed', String(active));
+      });
+      picker.querySelectorAll('.img-picker-pane').forEach(function(p) { p.hidden = p.dataset.pane !== mode; });
+      say('');
+      if (mode === 'library') loadLibrary();
+      if (mode === 'url') urlInput.focus();
+    }
+
+    async function upload(file) {
+      if (!file) return;
+      if (IMAGE_UPLOAD_TYPES.indexOf(file.type) < 0) return say('Format non accepté : choisissez une image JPG, PNG, WebP ou GIF.', true);
+      if (file.size > IMAGE_UPLOAD_MAX) return say('Image trop lourde (10 Mo maximum).', true);
+      picker.classList.add('is-busy');
+      say('Préparation de l\'image…');
+      try {
+        var ready = await optimizeImage(file);
+        say('Envoi en cours…');
+        var formData = new FormData();
+        formData.append('file', ready);
+        var res = await API.upload('/upload', formData);
+        if (!res || !res.url) throw { error: 'Envoi impossible' };
+        setImagePickerValue(id, res.url);
+        say('Image envoyée et enregistrée dans la médiathèque (' + Math.round(ready.size / 1024) + ' Ko).');
+      } catch (err) {
+        say((err && err.error) || 'Envoi impossible, réessayez.', true);
+      } finally {
+        picker.classList.remove('is-busy');
+        fileInput.value = '';
+      }
+    }
+
+    async function loadLibrary() {
+      library.innerHTML = '<p class="img-picker-empty">Chargement…</p>';
+      try {
+        var r = await API.get('/upload');
+        var files = (r && Array.isArray(r.data) ? r.data : []).filter(function(f) { return safeUrl(f.url, ''); });
+        if (!files.length) {
+          library.innerHTML = '<p class="img-picker-empty">Aucune image dans la médiathèque pour l\'instant.</p>';
+          return;
+        }
+        library.innerHTML = files.map(function(f) {
+          return '<button type="button" class="img-picker-thumb" data-url="' + escAttr(f.url) + '" title="' + escAttr(f.original_name || f.filename) + '">'
+            + '<img src="' + escAttr(safeUrl(f.url, '')) + '" alt="" loading="lazy"></button>';
+        }).join('');
+        library.querySelectorAll('.img-picker-thumb').forEach(function(b) {
+          b.onclick = function() {
+            setImagePickerValue(id, b.dataset.url);
+            library.querySelectorAll('.img-picker-thumb').forEach(function(x) { x.classList.toggle('is-selected', x === b); });
+            say('Image choisie dans la médiathèque.');
+          };
+        });
+      } catch (e) {
+        library.innerHTML = '<p class="img-picker-empty">Médiathèque indisponible.</p>';
+      }
+    }
+
+    picker.querySelectorAll('.img-picker-tab').forEach(function(t) { t.onclick = function() { showMode(t.dataset.mode); }; });
+    fileInput.onchange = function() { upload(fileInput.files[0]); };
+    ['dragenter', 'dragover'].forEach(function(ev) {
+      drop.addEventListener(ev, function(e) { e.preventDefault(); drop.classList.add('is-over'); });
+    });
+    ['dragleave', 'drop'].forEach(function(ev) {
+      drop.addEventListener(ev, function(e) { e.preventDefault(); drop.classList.remove('is-over'); });
+    });
+    drop.addEventListener('drop', function(e) { upload(e.dataTransfer.files[0]); });
+    urlInput.oninput = function() {
+      var value = urlInput.value.trim();
+      if (value && !/^https?:\/\//i.test(value)) return say('Le lien doit commencer par https://', true);
+      say(value ? 'Pensez à vérifier que vous avez le droit d\'utiliser cette image.' : '');
+      setImagePickerValue(id, value);
+    };
+    picker.querySelector('.img-picker-remove').onclick = function() { setImagePickerValue(id, ''); say(''); };
   });
 }
 

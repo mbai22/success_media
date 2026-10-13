@@ -1,4 +1,4 @@
-const CACHE_NAME = 'smtv-v13'
+const CACHE_NAME = 'smtv-v17'
 const urlsToCache = [
   '/',
   '/css/style.css',
