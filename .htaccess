@@ -1,0 +1,15 @@
+RewriteEngine On
+RewriteBase /
+
+# Serve sitemap.xml via sitemap.php
+RewriteRule ^sitemap\.xml$ sitemap.php [L]
+
+# Route all /api/* requests to api/index.php
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^api/(.*)$ api/index.php [QSA,L]
+
+# Security: deny access to sensitive files
+<FilesMatch "\.(db|sqlite|sql|md|log)$">
+  Require all denied
+</FilesMatch>
